@@ -10,8 +10,8 @@ class DiscountCard extends StatelessWidget {
 
   const DiscountCard({
     required this.description,
-    required this.sale,
     required this.name,
+    this.sale,
     this.onTap,
     this.onFavoriteTap,
     this.onFavoriteChange,
@@ -25,7 +25,7 @@ class DiscountCard extends StatelessWidget {
 
   final String name;
   final String? category, description, imgBackground, companyImg;
-  final int sale;
+  final int? sale;
   final bool isLiked, isShowLike;
   final void Function(bool value)? onFavoriteChange;
   final VoidCallback? onTap, onFavoriteTap;
@@ -87,7 +87,7 @@ class DiscountCard extends StatelessWidget {
                       spacing: 8,
                       children: [
                         if (category != null) _IndoChip(title: category!),
-                        _IndoChip(title: '-$sale%'),
+                        if (sale != null) _IndoChip(title: '-$sale%'),
                       ],
                     ),
                   ),
