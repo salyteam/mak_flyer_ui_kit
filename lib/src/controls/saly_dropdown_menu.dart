@@ -2,37 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:saly_ui_kit/saly_ui_kit.dart';
 
 ///Model for configuration DropDownMenu
-class SalyDropDownMenuItem<T> {
-  SalyDropDownMenuItem({required this.value, this.id, this.title});
-
-  final int? id;
-  final String? title;
-  final T value;
+abstract interface class SalyDropDownMenuItem {
+  abstract final int menuId;
+  abstract final String title;
 }
 
-class SalyDropDownMenu<T> extends StatefulWidget {
+class SalyDropDownMenu<T extends SalyDropDownMenuItem> extends StatefulWidget {
   const SalyDropDownMenu({
     required this.items,
     required this.onChange,
+    required this.initValue,
     this.isDisable = false,
-    this.initValue,
+    this.contentHeight = _defaultHeight,
     super.key,
   });
 
-  final T? initValue;
+  static const _defaultHeight = 300.0;
+
+  final SalyDropDownMenuItem initValue;
   final List<SalyDropDownMenuItem> items;
-  final void Function(SalyDropDownMenuItem<T> value) onChange;
+  final void Function(T value) onChange;
   final bool isDisable;
+  final double contentHeight;
 
   @override
   State<SalyDropDownMenu> createState() => _SalyDropDownMenuState<T>();
 }
 
-class _SalyDropDownMenuState<T> extends State<SalyDropDownMenu<T>> {
+abstract interface class _ScrollUpdatingDelegate {
+  void scrollPosition(double offset);
+}
+
+class _SalyDropDownMenuState<T extends SalyDropDownMenuItem> extends State<SalyDropDownMenu<T>>
+    implements _ScrollUpdatingDelegate {
   late final LayerLink _layerLink = LayerLink();
   OverlayEntry? _entry;
+  SalyDropDownMenuItem? _selectedItem;
+  double _previousScrollOffset = 0.0;
 
   bool get _isActive => _entry != null;
+
+  @override
+  void scrollPosition(double offset) => _previousScrollOffset = offset;
 
   void _show() {
     if (_isActive) return;
@@ -43,17 +54,21 @@ class _SalyDropDownMenuState<T> extends State<SalyDropDownMenu<T>> {
           return Positioned(
             left: 20,
             right: 20,
+            height: 300,
             child: CompositedTransformFollower(
               offset: const Offset(0, 4),
               targetAnchor: Alignment.bottomCenter,
               followerAnchor: Alignment.topCenter,
               link: _layerLink,
               child: _DropDownMenuContent<T>(
-                initValue: widget.initValue as T,
+                initValue: _selectedItem ?? widget.initValue,
+                scrollController: ScrollController(initialScrollOffset: _previousScrollOffset),
                 onTapOutside: () => _close(),
                 items: widget.items,
+                scrollUpdatingDelegate: this,
                 onSelect: (value) {
                   widget.onChange(value);
+                  setState(() => _selectedItem = value);
                   _close();
                 },
               ),
@@ -90,7 +105,7 @@ class _SalyDropDownMenuState<T> extends State<SalyDropDownMenu<T>> {
             padding: const EdgeInsets.fromLTRB(24, 16, 16, 16),
             child: Row(
               children: [
-                if (widget.initValue != null) Text(widget.initValue.toString(), style: context.fonts.body),
+                Text(_selectedItem?.title ?? widget.initValue.title, style: context.fonts.body),
                 const Spacer(),
                 SalyAssets.icons.sort.svg(
                   colorFilter: ColorFilter.mode(context.colors.neutralSecondaryS2, BlendMode.srcIn),
@@ -102,32 +117,52 @@ class _SalyDropDownMenuState<T> extends State<SalyDropDownMenu<T>> {
       ),
     ),
   );
+
+  @override
+  void dispose() {
+    _close();
+    super.dispose();
+  }
 }
 
-class _DropDownMenuContent<T> extends StatefulWidget {
-  const _DropDownMenuContent({required this.initValue, required this.items, required this.onSelect, this.onTapOutside});
+class _DropDownMenuContent<T extends SalyDropDownMenuItem> extends StatefulWidget {
+  const _DropDownMenuContent({
+    required this.initValue,
+    required this.items,
+    required this.onSelect,
+    this.scrollUpdatingDelegate,
+    this.onTapOutside,
+    this.scrollController,
+  });
 
-  final T initValue;
+  final SalyDropDownMenuItem initValue;
   final List<SalyDropDownMenuItem> items;
   final VoidCallback? onTapOutside;
-  final void Function(SalyDropDownMenuItem<T> value) onSelect;
+  final ScrollController? scrollController;
+  final _ScrollUpdatingDelegate? scrollUpdatingDelegate;
+  final void Function(T value) onSelect;
 
   @override
   State<_DropDownMenuContent> createState() => _DropDownMenuContentState<T>();
 }
 
-class _DropDownMenuContentState<T> extends State<_DropDownMenuContent<T>> {
+class _DropDownMenuContentState<T extends SalyDropDownMenuItem> extends State<_DropDownMenuContent<T>> {
   final _animationDuration = const Duration(milliseconds: 170);
   CrossFadeState _state = CrossFadeState.showSecond;
-
-  late T _currentValue = widget.initValue;
 
   @override
   void initState() {
     super.initState();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      widget.scrollController?.jumpTo(widget.scrollController?.initialScrollOffset ?? .0);
       setState(() => _state = CrossFadeState.showFirst);
+    });
+
+    widget.scrollController?.addListener(() {
+      if (widget.scrollController != null) {
+        widget.scrollUpdatingDelegate?.scrollPosition(widget.scrollController!.offset);
+      }
     });
   }
 
@@ -146,35 +181,38 @@ class _DropDownMenuContentState<T> extends State<_DropDownMenuContent<T>> {
       secondChild: const SizedBox.shrink(),
       firstChild: TapRegion(
         onTapOutside: _onTapOutside,
-        child: Material(
-          color: Colors.transparent,
-          child: ClipRRect(
-            clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(16),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(color: context.colors.statusInfoS1),
+        child: ClipRRect(
+          clipBehavior: Clip.hardEdge,
+          borderRadius: BorderRadius.circular(16),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(color: context.colors.statusInfoS1),
+              borderRadius: BorderRadius.circular(16),
+              color: context.colors.neutralPrimaryS1,
+              boxShadow: [BoxShadow(color: const Color(0xFF7AA6D9).withValues(alpha: .1), blurRadius: 16)],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(2),
+              child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                color: context.colors.neutralPrimaryS1,
-                boxShadow: [BoxShadow(color: const Color(0xFF7AA6D9).withValues(alpha: .1), blurRadius: 16)],
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (final (i, item) in widget.items.indexed) ...[
-                      _DropDownMenuItemWidget(
-                        value: item.value == _currentValue,
-                        title: item.title?.toString() ?? item.value,
-                        onChange: (_) async {
-                          setState(() => _currentValue = item.value);
-                          widget.onSelect.call(item as SalyDropDownMenuItem<T>);
-                        },
-                      ),
-                      if (i != widget.items.indexed.length - 1)
-                        Divider(color: context.colors.neutralSecondaryS3, height: 1),
+                child: SingleChildScrollView(
+                  controller: widget.scrollController,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (final (i, item) in widget.items.indexed) ...[
+                        _DropDownMenuItemWidget(
+                          isActive: item.menuId == widget.initValue.menuId,
+                          title: item.title,
+                          onChange: (_) async {
+                            await Future.delayed(const Duration(milliseconds: 150));
+                            widget.onSelect.call(item as T);
+                          },
+                        ),
+                        if (i != widget.items.length - 1) Divider(color: context.colors.neutralSecondaryS3, height: 1),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -183,13 +221,19 @@ class _DropDownMenuContentState<T> extends State<_DropDownMenuContent<T>> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    widget.scrollController?.dispose();
+    super.dispose();
+  }
 }
 
 class _DropDownMenuItemWidget extends StatelessWidget {
-  const _DropDownMenuItemWidget({required this.value, required this.title, this.onChange});
+  const _DropDownMenuItemWidget({required this.isActive, required this.title, this.onChange});
 
   final String title;
-  final bool value;
+  final bool isActive;
   final void Function(bool value)? onChange;
 
   @override
@@ -197,7 +241,7 @@ class _DropDownMenuItemWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => onChange?.call(!value),
+        onTap: () => onChange?.call(!isActive),
         splashColor: context.colors.neutralSecondaryS3.withValues(alpha: .4),
         highlightColor: context.colors.neutralSecondaryS3.withValues(alpha: .4),
         child: Padding(
@@ -210,7 +254,7 @@ class _DropDownMenuItemWidget extends StatelessWidget {
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 170),
                 transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
-                child: value
+                child: isActive
                     ? SalyAssets.icons.statusOk.svg(
                         key: const ValueKey(1),
                         colorFilter: ColorFilter.mode(context.colors.statusInfoS1, BlendMode.srcIn),

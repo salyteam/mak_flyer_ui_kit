@@ -31,6 +31,27 @@ Brightness? getInitBrightness(SharedPreferences sharedPref) {
   return Brightness.values[value];
 }
 
+class CityModel implements SalyDropDownMenuItem {
+  CityModel(this.menuId, this.name);
+
+  @override
+  final int menuId;
+  final String name;
+
+  @override
+  String get title => name;
+}
+
+class Anatoliy implements SalyDropDownMenuItem {
+  @override
+  int get menuId => 1;
+
+  @override
+  String get title => "";
+}
+
+final cities = List.generate((15), (i) => CityModel(i, "City name: $i"));
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,11 +62,13 @@ class MyApp extends StatelessWidget {
         child: Column(
           spacing: 20,
           children: [
+            SalyDropDownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
+
             SalyLikeButton(initValue: false, size: 100),
 
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SalyTextInput(hintText: "Some text", readOnly: true, suffixIconAsset: SalyAssets.icons.user),
+              child: SalyTextInput(hintText: "Some text", suffixIconAsset: SalyAssets.icons.user),
             ),
 
             Padding(
