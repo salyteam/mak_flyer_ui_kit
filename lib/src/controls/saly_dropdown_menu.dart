@@ -105,8 +105,14 @@ class _SalyDropDownMenuState<T extends SalyDropDownMenuItem> extends State<SalyD
             padding: const EdgeInsets.fromLTRB(24, 16, 16, 16),
             child: Row(
               children: [
-                Text(_selectedItem?.title ?? widget.initValue.title, style: context.fonts.body),
-                const Spacer(),
+                Expanded(
+                  child: Text(
+                    _selectedItem?.title ?? widget.initValue.title,
+                    style: context.fonts.body,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 SalyAssets.icons.sort.svg(
                   colorFilter: ColorFilter.mode(context.colors.neutralSecondaryS2, BlendMode.srcIn),
                 ),
