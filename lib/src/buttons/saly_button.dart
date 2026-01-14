@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saly_ui_kit/src/buttons/button_type.dart';
+import 'package:saly_ui_kit/src/layout/saly_loader.dart';
 import 'package:saly_ui_kit/src/utils/extension.dart';
 
 class SalyButton extends StatelessWidget {
@@ -13,6 +14,7 @@ class SalyButton extends StatelessWidget {
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
+    this.isLoading = false,
     super.key,
   }) : _type = SalyButtonType.primary,
        backgroundColor = null,
@@ -28,6 +30,7 @@ class SalyButton extends StatelessWidget {
     this.size,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.isLoading = false,
     super.key,
   }) : _type = SalyButtonType.secondary,
        backgroundColor = null,
@@ -45,6 +48,7 @@ class SalyButton extends StatelessWidget {
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
+    this.isLoading = false,
     super.key,
   }) : _type = SalyButtonType.ghost,
        backgroundColor = null,
@@ -62,6 +66,7 @@ class SalyButton extends StatelessWidget {
     this.disableColor,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.isLoading = false,
     super.key,
   }) : _type = SalyButtonType.custom,
        isDestructive = false,
@@ -77,7 +82,7 @@ class SalyButton extends StatelessWidget {
   final List<BoxShadow>? shadow;
   final Size? size;
   final Color? backgroundColor, disableColor;
-  final bool isDestructive;
+  final bool isDestructive, isLoading;
 
   bool get isDisabled => onTap == null;
 
@@ -128,6 +133,24 @@ class SalyButton extends StatelessWidget {
 
   BorderRadius get _borderRadius => .circular(radius);
 
+  Widget? _buildChild(BuildContext context) {
+    if (isLoading) return SalyLoader(key: ValueKey("loader"), padding: EdgeInsets.zero);
+
+    if (child != null) return child!;
+
+    if (title != null) {
+      return Text(
+        title!,
+        key: ValueKey("text"),
+        style:
+            textStyle ??
+            context.fonts.subtitle.copyWith(color: _textColor(context), fontWeight: FontWeight.w700, fontSize: 16),
+      );
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox.fromSize(
@@ -146,22 +169,7 @@ class SalyButton extends StatelessWidget {
             ),
             child: Padding(
               padding: size != null ? EdgeInsets.zero : padding,
-              child: Center(
-                child:
-                    child ??
-                    (title != null
-                        ? Text(
-                            title!,
-                            style:
-                                textStyle ??
-                                context.fonts.subtitle.copyWith(
-                                  color: _textColor(context),
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                          )
-                        : null),
-              ),
+              child: Center(child: _buildChild(context)),
             ),
           ),
         ),
