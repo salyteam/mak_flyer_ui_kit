@@ -8,12 +8,12 @@ class SalyTextInput<T> extends StatefulWidget {
     this.suffixIconAsset,
     this.minLines,
     this.maxLines,
+    this.maxLength,
     this.hintText,
     this.suffixIcon,
     this.contentPadding,
     this.validationMessages,
     this.control,
-    this.onTapOutside,
     this.inputFormatters,
     this.keyboardType,
     this.focusNode,
@@ -24,12 +24,15 @@ class SalyTextInput<T> extends StatefulWidget {
     this.isDisabled = false,
     this.showErrors,
     this.onTap,
+    this.onTapOutside,
+    this.onSubmitted,
+    this.onChanged,
     this.style,
     this.isValid,
     super.key,
   });
 
-  final int? maxLines, minLines;
+  final int? maxLines, minLines, maxLength;
   final String? hintText;
   final SvgGenImage? suffixIconAsset;
   final Widget? suffixIcon;
@@ -37,10 +40,12 @@ class SalyTextInput<T> extends StatefulWidget {
   final FormControl<dynamic>? control;
   final TextInputType? keyboardType;
   final Map<String, String Function(Object)>? validationMessages;
-  final void Function(PointerDownEvent)? onTapOutside;
   final bool Function(FormControl<T>)? showErrors;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(FormControl<T>)? onTap;
+  final void Function(PointerDownEvent)? onTapOutside;
+  final void Function(FormControl<T>)? onSubmitted;
+  final void Function(FormControl<T>)? onChanged;
   final FocusNode? focusNode;
   final TextStyle? style;
   final bool readOnly, autofocus, obscureText, hasError, isDisabled;
@@ -132,7 +137,8 @@ class _SalyTextInputState extends State<SalyTextInput> {
         child: DecoratedBox(
           decoration: BoxDecoration(
             boxShadow: [
-              if (!_hasFocus) BoxShadow(blurRadius: 16, color: context.colors.shadowColor.withValues(alpha: 0.1)),
+              if (!_hasFocus)
+                BoxShadow(blurRadius: 16, color: context.colors.shadowColor.withValues(alpha: 0.1)),
             ],
           ),
           child: ReactiveTextField(
@@ -151,14 +157,19 @@ class _SalyTextInputState extends State<SalyTextInput> {
               setState(() {});
             },
             formControl: widget.control ?? FormControl(value: "asdfads"),
+            onSubmitted: widget.onSubmitted,
             validationMessages: widget.validationMessages,
             style: widget.style ?? context.fonts.body.copyWith(color: _textColor),
             maxLines: widget.maxLines,
             minLines: widget.minLines,
+            maxLength: widget.maxLength,
             cursorColor: _cursorColor,
             cursorErrorColor: context.colors.statusErrorS1,
             cursorHeight: 16,
-            onChanged: (_) => setState(() {}),
+            onChanged: (control) {
+              widget.onChanged?.call(control);
+              setState(() {});
+            },
             decoration: InputDecoration(
               isDense: true,
               hintText: widget.hintText,
