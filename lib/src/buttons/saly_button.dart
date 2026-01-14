@@ -12,6 +12,7 @@ class SalyButton extends StatelessWidget {
     this.size,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.isDestructive = false,
     super.key,
   }) : _type = SalyButtonType.primary,
        backgroundColor = null,
@@ -31,6 +32,7 @@ class SalyButton extends StatelessWidget {
   }) : _type = SalyButtonType.secondary,
        backgroundColor = null,
        disableColor = null,
+       isDestructive = false,
        assert(child != null || title != null);
 
   const SalyButton.ghost({
@@ -42,6 +44,7 @@ class SalyButton extends StatelessWidget {
     this.size,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.isDestructive = false,
     super.key,
   }) : _type = SalyButtonType.ghost,
        backgroundColor = null,
@@ -61,6 +64,7 @@ class SalyButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
     super.key,
   }) : _type = SalyButtonType.custom,
+       isDestructive = false,
        assert(child != null || title != null);
 
   final VoidCallback? onTap;
@@ -73,26 +77,36 @@ class SalyButton extends StatelessWidget {
   final List<BoxShadow>? shadow;
   final Size? size;
   final Color? backgroundColor, disableColor;
+  final bool isDestructive;
 
   bool get isDisabled => onTap == null;
 
+  Color _mainColor(BuildContext context) => isDestructive ? context.colors.invalid : context.colors.statusAccentS1;
+
   Color _backgroundColor(BuildContext context) => switch (_type) {
-    SalyButtonType.primary => context.colors.statusAccentS1,
-    SalyButtonType.secondary => context.colors.neutralSecondaryS1,
-    SalyButtonType.ghost => context.colors.neutralPrimaryS2,
+    SalyButtonType.primary => _mainColor(context),
+    SalyButtonType.secondary => context.colors.neutralSecondaryS2,
+    SalyButtonType.ghost => context.colors.neutralPrimaryS1,
     SalyButtonType.custom => backgroundColor ?? context.colors.statusAccentS1,
   };
 
   Color _backgroundDisabledColor(BuildContext context) => switch (_type) {
-    SalyButtonType.primary => context.colors.statusAccentS1.withValues(alpha: 0.7),
+    SalyButtonType.primary => _mainColor(context).withValues(alpha: 0.7),
     SalyButtonType.secondary => context.colors.neutralSecondaryS2.withValues(alpha: 0.7),
     SalyButtonType.ghost => context.colors.neutralPrimaryS1,
     SalyButtonType.custom => disableColor ?? context.colors.statusAccentS1.withValues(alpha: 0.7),
   };
 
   Color _textColor(BuildContext context) {
-    if (_type == SalyButtonType.ghost && isDisabled) {
-      return context.colors.neutralSecondaryS2.withValues(alpha: 0.7);
+    if (_type == SalyButtonType.ghost) {
+      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
+      if (isDisabled) color = color.withValues(alpha: 0.7);
+
+      return color;
+    }
+
+    if (_type == SalyButtonType.ghost && isDestructive) {
+      return context.colors.invalid.withValues(alpha: 0.7);
     }
 
     return switch (_type) {
@@ -101,45 +115,52 @@ class SalyButton extends StatelessWidget {
     };
   }
 
+  BoxBorder? _border(BuildContext context) {
+    if (_type == SalyButtonType.ghost) {
+      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
+      if (isDisabled) color = color.withValues(alpha: 0.4);
+
+      return .all(color: color);
+    }
+
+    return null;
+  }
+
+  BorderRadius get _borderRadius => .circular(radius);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox.fromSize(
       size: size,
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: .all(color: _backgroundColor(context).withValues(alpha: .4)),
-            borderRadius: .circular(radius),
-          ),
-          child: Padding(
-            padding: const .all(4),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
-                borderRadius: .circular(radius),
-                boxShadow:
-                    shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: 0.1), blurRadius: 16)],
-              ),
-              child: Padding(
-                padding: size != null ? const EdgeInsets.all(0) : padding,
-                child: Center(
-                  child:
-                      child ??
-                      (title != null
-                          ? Text(
-                              title!,
-                              style:
-                                  textStyle ??
-                                  context.fonts.subtitle.copyWith(
-                                    color: _textColor(context),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
-                            )
-                          : null),
-                ),
+      child: Material(
+        borderRadius: _borderRadius,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: _borderRadius,
+          child: Ink(
+            decoration: BoxDecoration(
+              color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
+              borderRadius: _borderRadius,
+              boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: 0.1), blurRadius: 16)],
+              border: _border(context),
+            ),
+            child: Padding(
+              padding: size != null ? EdgeInsets.zero : padding,
+              child: Center(
+                child:
+                    child ??
+                    (title != null
+                        ? Text(
+                            title!,
+                            style:
+                                textStyle ??
+                                context.fonts.subtitle.copyWith(
+                                  color: _textColor(context),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                ),
+                          )
+                        : null),
               ),
             ),
           ),
