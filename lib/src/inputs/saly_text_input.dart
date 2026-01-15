@@ -156,7 +156,7 @@ class _SalyTextInputState extends State<SalyTextInput> {
               _focusNode.unfocus();
               setState(() {});
             },
-            formControl: widget.control ?? FormControl(value: "asdfads"),
+            formControl: widget.control ?? FormControl(),
             onSubmitted: widget.onSubmitted,
             validationMessages: widget.validationMessages,
             style: widget.style ?? context.fonts.body.copyWith(color: _textColor),
