@@ -20,6 +20,7 @@ class DiscountCard extends StatelessWidget {
     this.companyImg,
     this.isLiked = false,
     this.isShowLike = true,
+    this.onMoreTap,
     super.key,
   });
 
@@ -28,7 +29,7 @@ class DiscountCard extends StatelessWidget {
   final int? sale;
   final bool isLiked, isShowLike;
   final void Function(bool value)? onFavoriteChange;
-  final VoidCallback? onTap, onFavoriteTap;
+  final VoidCallback? onTap, onFavoriteTap, onMoreTap;
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +92,24 @@ class DiscountCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: _MoreButton(() {
+                      onMoreTap?.call();
+                    }),
+                  ),
                 ],
               ),
               if (description != null) ...[
                 const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                  child: Text(description!, maxLines: 2, overflow: TextOverflow.ellipsis, style: context.fonts.body),
+                GestureDetector(
+                  behavior: .opaque,
+                  onTap: onMoreTap,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                    child: Text(description!, maxLines: 2, overflow: TextOverflow.ellipsis, style: context.fonts.body),
+                  ),
                 ),
               ],
             ],
@@ -149,12 +161,6 @@ class _LogoBanner extends StatelessWidget {
                 children: [
                   if (name.isNotEmpty)
                     Text(name, style: context.fonts.h6, maxLines: 2, overflow: TextOverflow.ellipsis),
-                  Text(
-                    'Health & Wellness',
-                    style: context.fonts.body.copyWith(color: context.colors.neutralSecondaryS5),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
                 ],
               ),
             ),
@@ -182,10 +188,10 @@ class _IndoChip extends StatelessWidget {
   );
 }
 
-class _ShareButton extends StatelessWidget {
-  const _ShareButton(this.onTap);
+class _MoreButton extends StatelessWidget {
+  const _MoreButton(this.onTap);
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

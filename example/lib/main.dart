@@ -116,11 +116,36 @@ class MyApp extends StatelessWidget {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SalyButton.primary(onTap: () {}, title: "Button"),
+              child: SalyButton.ghost(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
+                title: "Button",
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+final class CardsListScreen extends StatelessWidget {
+  const CardsListScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: ListView.separated(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 150),
+      itemBuilder: (c, i) => DiscountCard(
+        name: "Магнит",
+        imgBackground: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzjQUSQzSfQuxWGk_Lw2HSU8GUuTPl-jCPfA&s",
+        description:
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita ka",
+        onMoreTap: () {
+          print("Hello");
+        },
+      ),
+      separatorBuilder: (c, i) => const SizedBox(height: 10),
+      itemCount: 10,
+    ),
+  );
 }

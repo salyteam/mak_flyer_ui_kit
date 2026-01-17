@@ -78,8 +78,8 @@ class SalyButton extends StatelessWidget {
 
   Color _backgroundColor(BuildContext context) => switch (_type) {
     SalyButtonType.primary => context.colors.statusAccentS1,
-    SalyButtonType.secondary => context.colors.neutralSecondaryS2,
-    SalyButtonType.ghost => context.colors.neutralPrimaryS1,
+    SalyButtonType.secondary => context.colors.neutralSecondaryS1,
+    SalyButtonType.ghost => context.colors.neutralPrimaryS2,
     SalyButtonType.custom => backgroundColor ?? context.colors.statusAccentS1,
   };
 
@@ -110,28 +110,37 @@ class SalyButton extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
-            borderRadius: BorderRadius.circular(radius),
-            boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: 0.1), blurRadius: 16)],
-            border: _type == SalyButtonType.ghost ? Border.all(color: context.colors.neutralSecondaryS3) : null,
+            border: .all(color: _backgroundColor(context).withValues(alpha: .4)),
+            borderRadius: .circular(radius),
           ),
           child: Padding(
-            padding: size != null ? const EdgeInsets.all(0) : padding,
-            child: Center(
-              child:
-                  child ??
-                  (title != null
-                      ? Text(
-                          title!,
-                          style:
-                              textStyle ??
-                              context.fonts.subtitle.copyWith(
-                                color: _textColor(context),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                              ),
-                        )
-                      : null),
+            padding: const .all(4),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
+                borderRadius: .circular(radius),
+                boxShadow:
+                    shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: 0.1), blurRadius: 16)],
+              ),
+              child: Padding(
+                padding: size != null ? const EdgeInsets.all(0) : padding,
+                child: Center(
+                  child:
+                      child ??
+                      (title != null
+                          ? Text(
+                              title!,
+                              style:
+                                  textStyle ??
+                                  context.fonts.subtitle.copyWith(
+                                    color: _textColor(context),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                  ),
+                            )
+                          : null),
+                ),
+              ),
             ),
           ),
         ),
