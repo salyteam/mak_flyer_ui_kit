@@ -113,8 +113,8 @@ class _SalyDropDownMenuState<T extends SalyDropDownMenuItem> extends State<SalyD
                   ),
                 ),
                 const SizedBox(width: 8),
-                SalyAssets.icons.sort.svg(
-                  colorFilter: ColorFilter.mode(context.colors.neutralSecondaryS2, BlendMode.srcIn),
+                SalyAssets.icons.unfold.svg(
+                  colorFilter: ColorFilter.mode(context.colors.neutralSecondaryS4, BlendMode.srcIn),
                 ),
               ],
             ),
@@ -263,7 +263,7 @@ class _DropDownMenuItemWidget extends StatelessWidget {
                 child: isActive
                     ? SalyAssets.icons.statusOk.svg(
                         key: const ValueKey(1),
-                        colorFilter: ColorFilter.mode(context.colors.statusInfoS1, BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(context.colors.statusAccentS1, BlendMode.srcIn),
                         height: 26,
                         width: 26,
                       )

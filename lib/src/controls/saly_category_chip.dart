@@ -33,10 +33,12 @@ class SalyCategoryChip extends StatelessWidget {
           decoration: BoxDecoration(
             color: isDisable ? Colors.transparent : context.colors.neutralPrimaryS1,
             borderRadius: BorderRadius.circular(12),
-            border: isActive
-                ? Border.all(color: context.colors.statusInfoS1, strokeAlign: BorderSide.strokeAlignOutside)
-                : null,
-            boxShadow: [BoxShadow(color: context.colors.shadowColor.withValues(alpha: 0.1), blurRadius: 16)],
+            border: Border.all(
+              color: isActive ? context.colors.statusAccentS1 : context.colors.neutralSecondaryS3,
+              strokeAlign: BorderSide.strokeAlignOutside,
+            ),
+
+            boxShadow: [BoxShadow(color: context.colors.neutralSecondaryS4.withValues(alpha: 0.1), blurRadius: 16)],
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(

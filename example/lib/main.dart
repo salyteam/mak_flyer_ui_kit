@@ -133,19 +133,46 @@ final class CardsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 150),
-      itemBuilder: (c, i) => DiscountCard(
-        name: "Магнит",
-        imgBackground: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzjQUSQzSfQuxWGk_Lw2HSU8GUuTPl-jCPfA&s",
-        description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita ka",
-        onMoreTap: () {
-          print("Hello");
-        },
+    body: SafeArea(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 70,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              itemBuilder: (c, i) => SalyCategoryChip(
+                onTap: () {},
+                opacity: 1,
+                title: "Name",
+                leading: Text("📱"),
+                mainAxisAlignment: MainAxisAlignment.center,
+                isActive: false,
+              ),
+              separatorBuilder: (c, i) => const SizedBox(width: 10),
+              itemCount: 10,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemBuilder: (c, i) => DiscountCard(
+                name: "Магнит",
+                imgBackground:
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzjQUSQzSfQuxWGk_Lw2HSU8GUuTPl-jCPfA&s",
+                description:
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita ka",
+                onMoreTap: () {
+                  print("Hello");
+                },
+              ),
+              separatorBuilder: (c, i) => const SizedBox(height: 10),
+              itemCount: 10,
+            ),
+          ),
+        ],
       ),
-      separatorBuilder: (c, i) => const SizedBox(height: 10),
-      itemCount: 10,
     ),
   );
 }
