@@ -14,13 +14,13 @@ final class FontsExtension extends ThemeExtension<FontsExtension> {
   });
 
   factory FontsExtension.base({Color? color}) => FontsExtension(
-    h1: TextStyle(color: color, fontSize: 72, fontWeight: FontWeight.w800, height: 1.4, letterSpacing: -1.44),
+    h1: TextStyle(color: color, fontSize: 72, fontWeight: FontWeight.w700, height: 1.4, letterSpacing: -1.44),
     h2: TextStyle(color: color, fontSize: 56, fontWeight: FontWeight.w700, height: 1.5, letterSpacing: -1.01),
     h3: TextStyle(color: color, fontSize: 40, fontWeight: FontWeight.w700, height: 1.5, letterSpacing: -0.64),
-    h4: TextStyle(color: color, fontSize: 32, fontWeight: FontWeight.w600, height: 1.5, letterSpacing: -0.45),
-    h5: TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.w600, height: 1.5, letterSpacing: -0.34),
-    h6: TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.w600, height: 1.6, letterSpacing: -0.12),
-    subtitle: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.w600, height: 1.5, letterSpacing: 0.12),
+    h4: TextStyle(color: color, fontSize: 32, fontWeight: FontWeight.w700, height: 1.5, letterSpacing: -0.45),
+    h5: TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.w700, height: 1.5, letterSpacing: -0.34),
+    h6: TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.w700, height: 1.6, letterSpacing: -0.12),
+    subtitle: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.w700, height: 1.5, letterSpacing: 0.12),
     body: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.w400, height: 1.6, letterSpacing: 0.12),
     small: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w400, height: 1.6, letterSpacing: 0.12),
   );

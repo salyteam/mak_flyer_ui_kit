@@ -156,6 +156,7 @@ class SalyButton extends StatelessWidget {
     return SizedBox.fromSize(
       size: size,
       child: Material(
+        color: Colors.transparent,
         borderRadius: _borderRadius,
         child: InkWell(
           onTap: onTap,
