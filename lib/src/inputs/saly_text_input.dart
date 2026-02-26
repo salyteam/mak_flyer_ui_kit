@@ -29,13 +29,18 @@ class SalyTextInput<T> extends StatefulWidget {
     this.onChanged,
     this.style,
     this.isValid,
+    this.suffix,
+    this.suffixStyle,
+    this.suffixText,
+    this.suffixIconConstraints,
     super.key,
   });
 
   final int? maxLines, minLines, maxLength;
-  final String? hintText;
+  final String? hintText, suffixText;
   final SvgGenImage? suffixIconAsset;
   final Widget? suffixIcon;
+  final Widget? suffix;
   final EdgeInsets? contentPadding;
   final FormControl<dynamic>? control;
   final TextInputType? keyboardType;
@@ -47,9 +52,10 @@ class SalyTextInput<T> extends StatefulWidget {
   final void Function(FormControl<T>)? onSubmitted;
   final void Function(FormControl<T>)? onChanged;
   final FocusNode? focusNode;
-  final TextStyle? style;
+  final TextStyle? style, suffixStyle;
   final bool readOnly, autofocus, obscureText, hasError, isDisabled;
   final bool? isValid;
+  final BoxConstraints? suffixIconConstraints;
 
   @override
   State<SalyTextInput> createState() => _SalyTextInputState();
@@ -131,80 +137,85 @@ class _SalyTextInputState extends State<SalyTextInput> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Opacity(
-        opacity: widget.isDisabled ? 0.6 : 1.0,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            boxShadow: [
-              if (!_hasFocus)
-                BoxShadow(blurRadius: 16, color: context.colors.shadowColor.withValues(alpha: 0.1)),
-            ],
-          ),
-          child: ReactiveTextField(
-            onTap: (details) {
-              widget.onTap?.call(details);
-              setState(() {});
-            },
-            focusNode: widget.readOnly ? null : _focusNode,
-            showErrors: widget.showErrors ?? (_) => false,
-            readOnly: widget.readOnly,
-            keyboardType: widget.keyboardType,
-            inputFormatters: widget.inputFormatters,
-            onTapOutside: (pointEvent) {
-              widget.onTapOutside?.call(pointEvent);
-              _focusNode.unfocus();
-              setState(() {});
-            },
-            formControl: widget.control ?? FormControl(),
-            onSubmitted: widget.onSubmitted,
-            validationMessages: widget.validationMessages,
-            style: widget.style ?? context.fonts.body.copyWith(color: _textColor),
-            maxLines: widget.maxLines,
-            minLines: widget.minLines,
-            maxLength: widget.maxLength,
-            cursorColor: _cursorColor,
-            cursorErrorColor: context.colors.statusErrorS1,
-            cursorHeight: 16,
-            onChanged: (control) {
-              widget.onChanged?.call(control);
-              setState(() {});
-            },
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: widget.hintText,
-              hintStyle: context.fonts.body.copyWith(color: _hintTextColor),
-              filled: true,
-              fillColor: _backgroundColor,
-              contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16)
-                ..copyWith(
-                  top: widget.contentPadding?.top,
-                  bottom: widget.contentPadding?.bottom,
-                  left: widget.contentPadding?.left,
-                  right: widget.contentPadding?.right,
+    return TapRegion(
+      onTapOutside: (detail) {
+        widget.onTapOutside?.call(detail);
+        _focusNode.unfocus();
+        setState(() {});
+      },
+      child: SizedBox(
+        child: Opacity(
+          opacity: widget.isDisabled ? 0.6 : 1.0,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              boxShadow: [
+                if (!_hasFocus) BoxShadow(blurRadius: 16, color: context.colors.shadowColor.withValues(alpha: 0.1)),
+              ],
+            ),
+            child: ReactiveTextField(
+              onTap: (details) {
+                widget.onTap?.call(details);
+                setState(() {});
+              },
+              focusNode: widget.readOnly ? null : _focusNode,
+              showErrors: widget.showErrors ?? (_) => false,
+              readOnly: widget.readOnly,
+              keyboardType: widget.keyboardType,
+              inputFormatters: widget.inputFormatters,
+              formControl: widget.control ?? FormControl(),
+              onSubmitted: widget.onSubmitted,
+              validationMessages: widget.validationMessages,
+              style: widget.style ?? context.fonts.body.copyWith(color: _textColor),
+              maxLines: widget.maxLines,
+              minLines: widget.minLines,
+              maxLength: widget.maxLength,
+              cursorColor: _cursorColor,
+              cursorErrorColor: context.colors.statusErrorS1,
+              cursorHeight: 16,
+              onChanged: (control) {
+                widget.onChanged?.call(control);
+                setState(() {});
+              },
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: widget.hintText,
+                hintStyle: context.fonts.body.copyWith(color: _hintTextColor),
+                suffix: widget.suffix,
+                filled: true,
+                fillColor: _backgroundColor,
+                contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16)
+                  ..copyWith(
+                    top: widget.contentPadding?.top,
+                    bottom: widget.contentPadding?.bottom,
+                    left: widget.contentPadding?.left,
+                    right: widget.contentPadding?.right,
+                  ),
+                suffixIcon: _suffixIcon,
+                suffixText: widget.suffixText,
+                suffixStyle: widget.suffixStyle,
+                suffixIconColor: _suffixIconColor,
+                suffixIconConstraints:
+                    widget.suffixIconConstraints ?? const BoxConstraints(maxHeight: 24, maxWidth: 40),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: _borderColor),
                 ),
-              suffixIcon: _suffixIcon,
-              suffixIconColor: _suffixIconColor,
-              suffixIconConstraints: const BoxConstraints(maxHeight: 24, maxWidth: 40),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: _borderColor),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: _borderColor),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: _borderColor),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: _borderColor),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: _borderColor),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: _borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: _borderColor),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: _borderColor),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: _borderColor),
+                ),
               ),
             ),
           ),
