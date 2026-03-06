@@ -9,6 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
+.fvmrc
 
 # IntelliJ related
 *.iml
@@ -27,3 +28,6 @@ migrate_working_dir/
 .flutter-plugins
 .flutter-plugins-dependencies
 build/
+
+# FVM Version Cache
+.fvm/
