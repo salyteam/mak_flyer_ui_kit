@@ -1,10 +1,9 @@
-name: saly_ui_kit
-description: "Saly UI Kit."
+name: mak_flyer_ui_kit
+description: "MakFlyer UI Kit."
 version: 0.0.2
 
 environment:
-  sdk: ^3.10.1
-  flutter: ">=1.17.0"
+  sdk: ">=3.10.1 <4.0.0"
 
 dependencies:
   cached_network_image: ^3.4.1
@@ -28,7 +27,7 @@ flutter_gen:
   line_length: 120
   assets:
     outputs:
-      class_name: SalyAssets
+      class_name: MFAssets
       package_parameter_enabled: true
   colors:
     inputs:

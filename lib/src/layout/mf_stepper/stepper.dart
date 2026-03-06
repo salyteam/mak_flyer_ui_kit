@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/layout/saly_stepper/controller.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_stepper/controller.dart';
 
 part 'models.dart';
 
@@ -81,11 +81,7 @@ class _SalyStepperState extends State<SalyStepper> with TickerProviderStateMixin
     final controller = AnimationController(vsync: this, duration: widget._animationDuration);
     final animation = CurvedAnimation(parent: controller, curve: widget._animationCurve);
 
-    final animatedStep = _AnimatedStep(
-      controller: controller,
-      animation: animation,
-      child: step.builder(context),
-    );
+    final animatedStep = _AnimatedStep(controller: controller, animation: animation, child: step.builder(context));
 
     _visibleSteps.add(animatedStep);
     controller.forward();
@@ -95,11 +91,7 @@ class _SalyStepperState extends State<SalyStepper> with TickerProviderStateMixin
     final controller = AnimationController(vsync: this, duration: widget._animationDuration);
     final animation = CurvedAnimation(parent: controller, curve: widget._animationCurve);
 
-    final animatedStep = _AnimatedStep(
-      controller: controller,
-      animation: animation,
-      child: nextStep.builder(context),
-    );
+    final animatedStep = _AnimatedStep(controller: controller, animation: animation, child: nextStep.builder(context));
 
     setState(() => _visibleSteps.add(animatedStep));
     controller.forward();
@@ -128,9 +120,7 @@ class _SalyStepperState extends State<SalyStepper> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Column(
       spacing: 32,
-      children: [
-        for (final step in _visibleSteps) FadeTransition(opacity: step.animation, child: step.child),
-      ],
+      children: [for (final step in _visibleSteps) FadeTransition(opacity: step.animation, child: step.child)],
     );
   }
 }

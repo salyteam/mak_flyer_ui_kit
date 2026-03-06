@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/controls/saly_category_chip.dart';
-import 'package:saly_ui_kit/src/controls/saly_category_slider/models.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
-class SalyCategorySlider extends StatefulWidget {
-  const SalyCategorySlider({required this.items, required this.onChange, this.controller, super.key});
+class MFCategorySlider extends StatefulWidget {
+  const MFCategorySlider({required this.items, required this.onChange, this.controller, super.key});
 
   final List<CategorySliderItem> items;
   final ScrollController? controller;
   final ValueChanged<List<CategorySliderItem>> onChange;
 
   @override
-  State<SalyCategorySlider> createState() => _SalyCategorySliderState();
+  State<MFCategorySlider> createState() => _MFCategorySliderState();
 }
 
-class _SalyCategorySliderState extends State<SalyCategorySlider> {
+class _MFCategorySliderState extends State<MFCategorySlider> {
   final _allItems = <CategorySliderItem>[];
   final _currentItems = <CategorySliderItem>[];
 
@@ -41,7 +40,7 @@ class _SalyCategorySliderState extends State<SalyCategorySlider> {
       child: Row(
         spacing: 12,
         children: _allItems
-            .map((i) => SalyCategoryChip(key: i.key, title: i.value.toString(), onTap: () => _onChange(i, i.value)))
+            .map((i) => MFCategoryChip(key: i.key, title: i.value.toString(), onTap: () => _onChange(i, i.value)))
             .toList(),
       ),
     );

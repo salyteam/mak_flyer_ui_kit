@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
-class SalyLikeButton extends StatefulWidget {
-  const SalyLikeButton({this.onTap, this.onChange, this.initValue = false, this.size = 52, super.key});
+class MFLikeButton extends StatefulWidget {
+  const MFLikeButton({this.onTap, this.onChange, this.initValue = false, this.size = 52, super.key});
 
   final bool initValue;
   final void Function(bool)? onChange;
@@ -10,10 +10,10 @@ class SalyLikeButton extends StatefulWidget {
   final double size;
 
   @override
-  State<SalyLikeButton> createState() => _SalyLikeButtonState();
+  State<MFLikeButton> createState() => _MFLikeButtonState();
 }
 
-class _SalyLikeButtonState extends State<SalyLikeButton> with TickerProviderStateMixin {
+class _MFLikeButtonState extends State<MFLikeButton> with TickerProviderStateMixin {
   late final AnimationController _animationController;
   late bool _isSelect = widget.initValue;
 
@@ -52,7 +52,7 @@ class _SalyLikeButtonState extends State<SalyLikeButton> with TickerProviderStat
   }
 
   @override
-  void didUpdateWidget(covariant SalyLikeButton oldWidget) {
+  void didUpdateWidget(covariant MFLikeButton oldWidget) {
     if (oldWidget.initValue != widget.initValue) {
       _isSelect = widget.initValue;
     }
@@ -75,7 +75,7 @@ class _SalyLikeButtonState extends State<SalyLikeButton> with TickerProviderStat
                   opacity: _backgroundHeartColor,
                   child: ScaleTransition(
                     scale: _backgroundHeartSize,
-                    child: SalyAssets.icons.heart.svg(
+                    child: MFAssets.icons.heart.svg(
                       colorFilter: ColorFilter.mode(context.colors.statusErrorS1, BlendMode.srcIn),
                       height: widget.size / 2,
                       width: widget.size / 2,
@@ -85,14 +85,14 @@ class _SalyLikeButtonState extends State<SalyLikeButton> with TickerProviderStat
 
               ScaleTransition(
                 scale: _foregroundHeartSize,
-                child: SalyAssets.icons.heart.svg(
+                child: MFAssets.icons.heart.svg(
                   colorFilter: ColorFilter.mode(context.colors.statusErrorS1, BlendMode.srcIn),
                   height: widget.size / 2,
                   width: widget.size / 2,
                 ),
               ),
             ] else ...[
-              SalyAssets.icons.heart.svg(
+              MFAssets.icons.heart.svg(
                 colorFilter: ColorFilter.mode(context.colors.neutralSecondaryS3, BlendMode.srcIn),
                 height: widget.size / 2,
                 width: widget.size / 2,
@@ -101,7 +101,7 @@ class _SalyLikeButtonState extends State<SalyLikeButton> with TickerProviderStat
               if (_animationController.status != AnimationStatus.completed)
                 FadeTransition(
                   opacity: _backgroundHeartColor,
-                  child: SalyAssets.icons.heart.svg(
+                  child: MFAssets.icons.heart.svg(
                     colorFilter: ColorFilter.mode(context.colors.statusErrorS1, BlendMode.srcIn),
                     height: widget.size / 2,
                     width: widget.size / 2,

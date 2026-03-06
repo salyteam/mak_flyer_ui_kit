@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
-class SalyCategoryChip extends StatelessWidget {
-  const SalyCategoryChip({
+class MFCategoryChip extends StatelessWidget {
+  const MFCategoryChip({
     required this.title,
     this.opacity = 1,
     this.isActive = false,
@@ -24,7 +24,6 @@ class SalyCategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDisable = onTap == null;
-
     return GestureDetector(
       onTap: isDisable ? null : onTap,
       behavior: HitTestBehavior.opaque,

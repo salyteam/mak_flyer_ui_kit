@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/buttons/button_type.dart';
-import 'package:saly_ui_kit/src/layout/saly_loader.dart';
-import 'package:saly_ui_kit/src/utils/extension.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/src/buttons/button_type.dart';
 
-class SalyButton extends StatelessWidget {
-  const SalyButton.primary({
+class MFButton extends StatelessWidget {
+  const MFButton.primary({
     this.title,
     this.onTap,
     this.child,
@@ -16,12 +15,12 @@ class SalyButton extends StatelessWidget {
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
-  }) : _type = SalyButtonType.primary,
+  }) : _type = MFButtonType.primary,
        backgroundColor = null,
        disableColor = null,
        assert(child != null || title != null);
 
-  const SalyButton.secondary({
+  const MFButton.secondary({
     this.title,
     this.onTap,
     this.child,
@@ -32,13 +31,13 @@ class SalyButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
     this.isLoading = false,
     super.key,
-  }) : _type = SalyButtonType.secondary,
+  }) : _type = MFButtonType.secondary,
        backgroundColor = null,
        disableColor = null,
        isDestructive = false,
        assert(child != null || title != null);
 
-  const SalyButton.ghost({
+  const MFButton.ghost({
     this.title,
     this.onTap,
     this.child,
@@ -50,12 +49,12 @@ class SalyButton extends StatelessWidget {
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
-  }) : _type = SalyButtonType.ghost,
+  }) : _type = MFButtonType.ghost,
        backgroundColor = null,
        disableColor = null,
        assert(child != null || title != null);
 
-  const SalyButton.custom({
+  const MFButton.custom({
     this.title,
     this.onTap,
     this.child,
@@ -68,7 +67,7 @@ class SalyButton extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
     this.isLoading = false,
     super.key,
-  }) : _type = SalyButtonType.custom,
+  }) : _type = MFButtonType.custom,
        isDestructive = false,
        assert(child != null || title != null);
 
@@ -78,7 +77,7 @@ class SalyButton extends StatelessWidget {
   final String? title;
   final TextStyle? textStyle;
   final EdgeInsets padding;
-  final SalyButtonType _type;
+  final MFButtonType _type;
   final List<BoxShadow>? shadow;
   final Size? size;
   final Color? backgroundColor, disableColor;
@@ -89,39 +88,39 @@ class SalyButton extends StatelessWidget {
   Color _mainColor(BuildContext context) => isDestructive ? context.colors.invalid : context.colors.statusAccentS1;
 
   Color _backgroundColor(BuildContext context) => switch (_type) {
-    SalyButtonType.primary => _mainColor(context),
-    SalyButtonType.secondary => context.colors.neutralSecondaryS2,
-    SalyButtonType.ghost => context.colors.neutralPrimaryS1,
-    SalyButtonType.custom => backgroundColor ?? context.colors.statusAccentS1,
+    MFButtonType.primary => _mainColor(context),
+    MFButtonType.secondary => context.colors.neutralSecondaryS2,
+    MFButtonType.ghost => context.colors.neutralPrimaryS1,
+    MFButtonType.custom => backgroundColor ?? context.colors.statusAccentS1,
   };
 
   Color _backgroundDisabledColor(BuildContext context) => switch (_type) {
-    SalyButtonType.primary => _mainColor(context).withValues(alpha: 0.7),
-    SalyButtonType.secondary => context.colors.neutralSecondaryS2.withValues(alpha: 0.7),
-    SalyButtonType.ghost => context.colors.neutralPrimaryS1,
-    SalyButtonType.custom => disableColor ?? context.colors.statusAccentS1.withValues(alpha: 0.7),
+    MFButtonType.primary => _mainColor(context).withValues(alpha: 0.7),
+    MFButtonType.secondary => context.colors.neutralSecondaryS2.withValues(alpha: 0.7),
+    MFButtonType.ghost => context.colors.neutralPrimaryS1,
+    MFButtonType.custom => disableColor ?? context.colors.statusAccentS1.withValues(alpha: 0.7),
   };
 
   Color _textColor(BuildContext context) {
-    if (_type == SalyButtonType.ghost) {
+    if (_type == MFButtonType.ghost) {
       var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
       if (isDisabled) color = color.withValues(alpha: 0.7);
 
       return color;
     }
 
-    if (_type == SalyButtonType.ghost && isDestructive) {
+    if (_type == MFButtonType.ghost && isDestructive) {
       return context.colors.invalid.withValues(alpha: 0.7);
     }
 
     return switch (_type) {
-      SalyButtonType.ghost => context.colors.neutralSecondaryS2,
+      MFButtonType.ghost => context.colors.neutralSecondaryS2,
       _ => context.colors.neutralPrimaryS1,
     };
   }
 
   BoxBorder? _border(BuildContext context) {
-    if (_type == SalyButtonType.ghost) {
+    if (_type == MFButtonType.ghost) {
       var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
       if (isDisabled) color = color.withValues(alpha: 0.4);
 
@@ -134,7 +133,7 @@ class SalyButton extends StatelessWidget {
   BorderRadius get _borderRadius => .circular(radius);
 
   Widget? _buildChild(BuildContext context) {
-    if (isLoading) return SalyLoader(key: ValueKey("loader"), padding: EdgeInsets.zero);
+    if (isLoading) return MFLoader(key: ValueKey("loader"), padding: EdgeInsets.zero);
 
     if (child != null) return child!;
 

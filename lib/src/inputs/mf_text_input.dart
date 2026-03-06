@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart' show SvgGenImage, ThemeDataExt;
 
-class SalyTextInput<T> extends StatefulWidget {
-  const SalyTextInput({
+class MFTextInput<T> extends StatefulWidget {
+  const MFTextInput({
     this.suffixIconAsset,
     this.minLines,
     this.maxLines,
@@ -58,10 +58,10 @@ class SalyTextInput<T> extends StatefulWidget {
   final BoxConstraints? suffixIconConstraints;
 
   @override
-  State<SalyTextInput> createState() => _SalyTextInputState();
+  State<MFTextInput> createState() => _MFTextInputState();
 }
 
-class _SalyTextInputState extends State<SalyTextInput> {
+class _MFTextInputState extends State<MFTextInput> {
   late final FocusNode _focusNode;
 
   bool get _controlHasError => widget.control?.hasErrors == true && widget.control?.touched == true;

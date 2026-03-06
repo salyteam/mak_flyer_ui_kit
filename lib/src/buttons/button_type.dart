@@ -1,1 +1,1 @@
-enum SalyButtonType { primary, secondary, ghost, custom }
+enum MFButtonType { primary, secondary, ghost, custom }

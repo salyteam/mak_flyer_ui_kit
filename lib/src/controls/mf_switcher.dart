@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
-class SalySwitcher extends StatefulWidget {
-  const SalySwitcher({required this.value, required this.onChange, this.size = 54, this.thumbPadding = 4, super.key});
+class MFSwitcher extends StatefulWidget {
+  const MFSwitcher({required this.value, required this.onChange, this.size = 54, this.thumbPadding = 4, super.key});
 
   final double size, thumbPadding;
   final bool value;
   final void Function(bool) onChange;
 
   @override
-  State<SalySwitcher> createState() => _SalySwitcherState();
+  State<MFSwitcher> createState() => _MFSwitcherState();
 }
 
-class _SalySwitcherState extends State<SalySwitcher> {
+class _MFSwitcherState extends State<MFSwitcher> {
   final _animationDuration = const Duration(milliseconds: 100);
   bool _value = false;
 

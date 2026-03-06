@@ -134,8 +134,8 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [favoritesEmpty, favoritesNotAuth, restourant];
 }
 
-class SalyAssets {
-  const SalyAssets._();
+class MFAssets {
+  const MFAssets._();
 
   static const String package = 'saly_ui_kit';
 

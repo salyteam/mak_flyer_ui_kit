@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
-class SalyLoader extends StatefulWidget {
-  const SalyLoader({this.padding, this.color, super.key});
+class MFLoader extends StatefulWidget {
+  const MFLoader({this.padding, this.color, super.key});
 
   final EdgeInsets? padding;
   final Color? color;
 
   @override
-  State<SalyLoader> createState() => _SalyLoaderState();
+  State<MFLoader> createState() => _MFLoaderState();
 }
 
-class _SalyLoaderState extends State<SalyLoader> with SingleTickerProviderStateMixin {
+class _MFLoaderState extends State<MFLoader> with SingleTickerProviderStateMixin {
   final _duration = Durations.long2;
   late final AnimationController _controller;
   late final Animation<double> _animation;
@@ -42,10 +42,7 @@ class _SalyLoaderState extends State<SalyLoader> with SingleTickerProviderStateM
         child: Container(
           width: 24,
           height: 24,
-          decoration: BoxDecoration(
-            color: widget.color ?? context.colors.statusInfoS1,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: widget.color ?? context.colors.statusInfoS1, shape: BoxShape.circle),
         ),
       ),
     );

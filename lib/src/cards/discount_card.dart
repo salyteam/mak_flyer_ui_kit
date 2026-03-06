@@ -1,9 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart' show CachedNetworkImage;
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/buttons/buttons.dart';
-import 'package:saly_ui_kit/src/gen/assets.gen.dart';
-import 'package:saly_ui_kit/src/layout/layout.dart';
-import 'package:saly_ui_kit/src/utils/extension.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
 class DiscountCard extends StatelessWidget {
   static const Widget shimmer = Shimmer(height: 430);
@@ -151,7 +148,7 @@ class _LogoBanner extends StatelessWidget {
                 height: 59,
                 width: 59,
                 fit: BoxFit.cover,
-                errorWidget: (context, _, __) => SalyAssets.images.restourant.image(fit: BoxFit.cover),
+                errorWidget: (context, _, __) => MFAssets.images.restourant.image(fit: BoxFit.cover),
               ),
             ),
             const SizedBox(width: 12),
@@ -165,7 +162,7 @@ class _LogoBanner extends StatelessWidget {
               ),
             ),
             if (isShowLike)
-              SalyLikeButton(initValue: isLiked, onChange: onFavoriteChange, onTap: onFavoriteTap, size: 59),
+              MFLikeButton(initValue: isLiked, onChange: onFavoriteChange, onTap: onFavoriteTap, size: 59),
           ],
         ),
       ),
@@ -200,9 +197,7 @@ class _MoreButton extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: SalyAssets.icons.more.svg(
-          colorFilter: ColorFilter.mode(context.colors.neutralPrimaryS1, BlendMode.srcIn),
-        ),
+        child: MFAssets.icons.more.svg(colorFilter: ColorFilter.mode(context.colors.neutralPrimaryS1, BlendMode.srcIn)),
       ),
     );
   }

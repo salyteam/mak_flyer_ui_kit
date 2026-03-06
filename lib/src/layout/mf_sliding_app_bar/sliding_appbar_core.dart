@@ -1,13 +1,13 @@
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/items.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/models.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/shrinking_parabolic_curve.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/slider_painter.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/items.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/mf_sliding_app_bar.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/shrinking_parabolic_curve.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/slider_painter.dart';
 
-class SlidingAppBarCore extends StatefulWidget {
-  const SlidingAppBarCore({
+class SlidingNavBarCore extends StatefulWidget {
+  const SlidingNavBarCore({
     required this.items,
     required this.duration,
     required this.iconColor,
@@ -24,7 +24,7 @@ class SlidingAppBarCore extends StatefulWidget {
 
   final int initialIndex;
   final Duration duration;
-  final List<AppBarItem> items;
+  final List<MFNavBarItem> items;
 
   final Color iconColor;
   final Color selectedIconColor;
@@ -39,10 +39,10 @@ class SlidingAppBarCore extends StatefulWidget {
   final Function(int index)? onTap;
 
   @override
-  State<SlidingAppBarCore> createState() => SlidingAppBarCoreState();
+  State<SlidingNavBarCore> createState() => SlidingNavBarCoreState();
 }
 
-class SlidingAppBarCoreState extends State<SlidingAppBarCore> with SingleTickerProviderStateMixin {
+class SlidingNavBarCoreState extends State<SlidingNavBarCore> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   final _radiusCurve = const ShrinkingParabolicCurve(shrink: 2);
@@ -108,7 +108,7 @@ class SlidingAppBarCoreState extends State<SlidingAppBarCore> with SingleTickerP
           child: child,
         );
       },
-      child: AppBarItems(
+      child: MFNavBarItems(
         onTap: moveSlider,
         items: widget.items,
         iconSize: _halfButtonSize,

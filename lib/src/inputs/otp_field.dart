@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 import 'package:pinput/pinput.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
 
 class OtpField extends StatelessWidget {
   const OtpField({

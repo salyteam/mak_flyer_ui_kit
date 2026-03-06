@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/models.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/mf_sliding_app_bar.dart';
 
-class AppBarItems extends StatelessWidget {
-  const AppBarItems({
+class MFNavBarItems extends StatelessWidget {
+  const MFNavBarItems({
     required this.onTap,
     required this.items,
     required this.iconSize,
@@ -25,7 +25,7 @@ class AppBarItems extends StatelessWidget {
   final Color selectedIconColor;
 
   final int selectedIndex;
-  final List<AppBarItem> items;
+  final List<MFNavBarItem> items;
 
   final Duration switchDuration;
 

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
 
-class SalyEmailInput extends StatefulWidget {
-  const SalyEmailInput({this.control, this.onSubmitted, this.onValidityChanged, this.onChanged, super.key});
+class MFEmailInput extends StatefulWidget {
+  const MFEmailInput({this.control, this.onSubmitted, this.onValidityChanged, this.onChanged, super.key});
 
   final FormControl<String>? control;
   final void Function(FormControl<String> control)? onSubmitted;
@@ -13,10 +13,10 @@ class SalyEmailInput extends StatefulWidget {
   final void Function(bool isValid)? onValidityChanged;
 
   @override
-  State<SalyEmailInput> createState() => _SalyEmailInputState();
+  State<MFEmailInput> createState() => _MFEmailInputState();
 }
 
-class _SalyEmailInputState extends State<SalyEmailInput> {
+class _MFEmailInputState extends State<MFEmailInput> {
   late final FormControl<String> _control;
   late final StreamSubscription<bool> _focusSubscription;
 
@@ -82,7 +82,7 @@ class _SalyEmailInputState extends State<SalyEmailInput> {
         duration: Durations.short4,
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
-        child: SalyAssets.icons.email.svg(
+        child: MFAssets.icons.email.svg(
           key: ValueKey(_control.hasFocus),
           colorFilter: ColorFilter.mode(_suffixIconColor, BlendMode.srcIn),
         ),

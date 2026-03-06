@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -18,7 +18,7 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       builder: (context, child) {
-        return SalyTheme(storage: sharedPref, child: child!);
+        return MFTheme(storage: sharedPref, child: child!);
       },
       home: const MyApp(),
     ),
@@ -31,7 +31,7 @@ Brightness? getInitBrightness(SharedPreferences sharedPref) {
   return Brightness.values[value];
 }
 
-class CityModel implements SalyDropDownMenuItem {
+class CityModel implements MFDropDownMenuItem {
   CityModel(this.menuId, this.name);
 
   @override
@@ -42,7 +42,7 @@ class CityModel implements SalyDropDownMenuItem {
   String get title => name;
 }
 
-class Anatoliy implements SalyDropDownMenuItem {
+class Anatoliy implements MFDropDownMenuItem {
   @override
   int get menuId => 1;
 
@@ -62,13 +62,13 @@ class MyApp extends StatelessWidget {
         child: Column(
           spacing: 20,
           children: [
-            SalyDropDownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
+            MFDropDownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
 
-            SalyLikeButton(initValue: false, size: 100),
+            MFLikeButton(initValue: false, size: 100),
 
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SalyTextInput(hintText: "Some text", suffixIconAsset: SalyAssets.icons.user),
+              child: MFTextInput(hintText: "Some text", suffixIconAsset: MFAssets.icons.user),
             ),
 
             Padding(
@@ -76,10 +76,10 @@ class MyApp extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(child: Text("Color theme", style: context.fonts.h5)),
-                  SalySwitcher(
+                  MFSwitcher(
                     value: false,
                     onChange: (valur) {
-                      SalyTheme.of(context).changeTheme();
+                      MFTheme.of(context).changeTheme();
                     },
                   ),
                 ],
@@ -116,9 +116,10 @@ class MyApp extends StatelessWidget {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SalyButton.ghost(
+              child: MFButton.custom(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
                 title: "Button",
+                backgroundColor: Colors.red,
               ),
             ),
           ],
@@ -141,7 +142,7 @@ final class CardsListScreen extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              itemBuilder: (c, i) => SalyCategoryChip(
+              itemBuilder: (c, i) => MFCategoryChip(
                 onTap: () {},
                 opacity: 1,
                 title: "Name",

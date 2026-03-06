@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
 ///Model for configuration DropDownMenu
-abstract interface class SalyDropDownMenuItem {
+abstract interface class MFDropDownMenuItem {
   abstract final int menuId;
   abstract final String title;
 }
 
-class SalyDropDownMenu<T extends SalyDropDownMenuItem> extends StatefulWidget {
-  const SalyDropDownMenu({
+class MFDropDownMenu<T extends MFDropDownMenuItem> extends StatefulWidget {
+  const MFDropDownMenu({
     required this.items,
     required this.onChange,
     required this.initValue,
@@ -19,25 +19,25 @@ class SalyDropDownMenu<T extends SalyDropDownMenuItem> extends StatefulWidget {
 
   static const _defaultHeight = 300.0;
 
-  final SalyDropDownMenuItem initValue;
-  final List<SalyDropDownMenuItem> items;
+  final MFDropDownMenuItem initValue;
+  final List<MFDropDownMenuItem> items;
   final void Function(T value) onChange;
   final bool isDisable;
   final double contentHeight;
 
   @override
-  State<SalyDropDownMenu> createState() => _SalyDropDownMenuState<T>();
+  State<MFDropDownMenu> createState() => _MFDropDownMenuState<T>();
 }
 
 abstract interface class _ScrollUpdatingDelegate {
   void scrollPosition(double offset);
 }
 
-class _SalyDropDownMenuState<T extends SalyDropDownMenuItem> extends State<SalyDropDownMenu<T>>
+class _MFDropDownMenuState<T extends MFDropDownMenuItem> extends State<MFDropDownMenu<T>>
     implements _ScrollUpdatingDelegate {
   late final LayerLink _layerLink = LayerLink();
   OverlayEntry? _entry;
-  SalyDropDownMenuItem? _selectedItem;
+  MFDropDownMenuItem? _selectedItem;
   double _previousScrollOffset = 0.0;
 
   bool get _isActive => _entry != null;
@@ -113,7 +113,7 @@ class _SalyDropDownMenuState<T extends SalyDropDownMenuItem> extends State<SalyD
                   ),
                 ),
                 const SizedBox(width: 8),
-                SalyAssets.icons.unfold.svg(
+                MFAssets.icons.unfold.svg(
                   colorFilter: ColorFilter.mode(context.colors.neutralSecondaryS4, BlendMode.srcIn),
                 ),
               ],
@@ -131,7 +131,7 @@ class _SalyDropDownMenuState<T extends SalyDropDownMenuItem> extends State<SalyD
   }
 }
 
-class _DropDownMenuContent<T extends SalyDropDownMenuItem> extends StatefulWidget {
+class _DropDownMenuContent<T extends MFDropDownMenuItem> extends StatefulWidget {
   const _DropDownMenuContent({
     required this.initValue,
     required this.items,
@@ -141,8 +141,8 @@ class _DropDownMenuContent<T extends SalyDropDownMenuItem> extends StatefulWidge
     this.scrollController,
   });
 
-  final SalyDropDownMenuItem initValue;
-  final List<SalyDropDownMenuItem> items;
+  final MFDropDownMenuItem initValue;
+  final List<MFDropDownMenuItem> items;
   final VoidCallback? onTapOutside;
   final ScrollController? scrollController;
   final _ScrollUpdatingDelegate? scrollUpdatingDelegate;
@@ -152,7 +152,7 @@ class _DropDownMenuContent<T extends SalyDropDownMenuItem> extends StatefulWidge
   State<_DropDownMenuContent> createState() => _DropDownMenuContentState<T>();
 }
 
-class _DropDownMenuContentState<T extends SalyDropDownMenuItem> extends State<_DropDownMenuContent<T>> {
+class _DropDownMenuContentState<T extends MFDropDownMenuItem> extends State<_DropDownMenuContent<T>> {
   final _animationDuration = const Duration(milliseconds: 170);
   CrossFadeState _state = CrossFadeState.showSecond;
 
@@ -261,7 +261,7 @@ class _DropDownMenuItemWidget extends StatelessWidget {
                 duration: const Duration(milliseconds: 170),
                 transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
                 child: isActive
-                    ? SalyAssets.icons.statusOk.svg(
+                    ? MFAssets.icons.statusOk.svg(
                         key: const ValueKey(1),
                         colorFilter: ColorFilter.mode(context.colors.statusAccentS1, BlendMode.srcIn),
                         height: 26,

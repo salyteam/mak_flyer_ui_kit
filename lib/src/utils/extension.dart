@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/theme/color_theme_extension.dart';
-import 'package:saly_ui_kit/src/theme/font_extension.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
 extension ThemeDataExt on BuildContext {
   ColorThemeExtension get colors {

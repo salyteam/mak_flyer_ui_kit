@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/models.dart';
-import 'package:saly_ui_kit/src/layout/saly_sliding_app_bar/sliding_appbar_core.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/mf_sliding_app_bar.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_sliding_app_bar/sliding_appbar_core.dart';
 
-class SalySlidingAppBar extends StatelessWidget {
-  const SalySlidingAppBar({
+class MFSlidingNavBar extends StatelessWidget {
+  const MFSlidingNavBar({
     required this.items,
     this.height = 80,
     this.buttonsGap = 6,
@@ -14,9 +14,7 @@ class SalySlidingAppBar extends StatelessWidget {
     this.backgroundColor = const Color.fromARGB(255, 36, 36, 36),
     this.sliderColor = Colors.white,
     this.sliderBorderRadius = const Radius.circular(50),
-    this.boxShadow = const [
-      BoxShadow(color: Color.fromARGB(100, 0, 0, 0), offset: Offset(0, 6), blurRadius: 10),
-    ],
+    this.boxShadow = const [BoxShadow(color: Color.fromARGB(100, 0, 0, 0), offset: Offset(0, 6), blurRadius: 10)],
     this.iconColor = Colors.white,
     this.selectedIconColor = const Color.fromARGB(255, 36, 36, 36),
     this.buttonDecoration,
@@ -44,7 +42,7 @@ class SalySlidingAppBar extends StatelessWidget {
   final BorderRadius borderRadius;
   final List<BoxShadow>? boxShadow;
 
-  final List<AppBarItem> items;
+  final List<MFNavBarItem> items;
   final BoxBorder? border;
 
   final Function(int index)? onTap;
@@ -74,7 +72,7 @@ class SalySlidingAppBar extends StatelessWidget {
 
                 return SizedBox(
                   width: w,
-                  child: SlidingAppBarCore(
+                  child: SlidingNavBarCore(
                     key: navBarKey,
                     items: items,
                     onTap: onTap,

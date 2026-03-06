@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
 const double _kToolBarHeight = 60;
 
-abstract class SalyHeader extends StatelessWidget implements PreferredSizeWidget {
-  const SalyHeader({
+abstract class MFHeader extends StatelessWidget implements PreferredSizeWidget {
+  const MFHeader({
     this.title,
     this.titleWidget,
     this.trailing,
@@ -15,7 +15,7 @@ abstract class SalyHeader extends StatelessWidget implements PreferredSizeWidget
     super.key,
   });
 
-  const factory SalyHeader.preferred({
+  const factory MFHeader.preferred({
     VoidCallback? onTapBack,
     Widget? leading,
     String title,
@@ -26,7 +26,7 @@ abstract class SalyHeader extends StatelessWidget implements PreferredSizeWidget
     Key? key,
   }) = _SalyHeaderPreferredImpl;
 
-  const factory SalyHeader.sliver({
+  const factory MFHeader.sliver({
     VoidCallback? onTapBack,
     Widget? leading,
     String title,
@@ -59,13 +59,13 @@ abstract class SalyHeader extends StatelessWidget implements PreferredSizeWidget
             color: Colors.transparent,
             child:
                 leading ??
-                SalyButton.ghost(
+                MFButton.ghost(
                   radius: 52,
                   size: Size.square(52),
                   shadow: [BoxShadow(color: context.colors.shadowColor.withValues(alpha: .1), blurRadius: 16)],
                   onTap: onTapBack ?? () => Navigator.pop(context),
-                  child: SalyAssets.icons.arrowLeft.svg(
-                    colorFilter: SalyTheme.of(context).isDartTheme
+                  child: MFAssets.icons.arrowLeft.svg(
+                    colorFilter: MFTheme.of(context).isDartTheme
                         ? ColorFilter.mode(context.colors.neutralSecondaryS4, BlendMode.srcIn)
                         : null,
                   ),
@@ -79,7 +79,7 @@ abstract class SalyHeader extends StatelessWidget implements PreferredSizeWidget
   );
 }
 
-final class _SalyHeaderPreferredImpl extends SalyHeader {
+final class _SalyHeaderPreferredImpl extends MFHeader {
   const _SalyHeaderPreferredImpl({
     super.onTapBack,
     super.leading,
@@ -95,7 +95,7 @@ final class _SalyHeaderPreferredImpl extends SalyHeader {
   Widget build(BuildContext context) => SafeArea(child: buildHeader(context));
 }
 
-final class _SalyHeaderSliver extends SalyHeader {
+final class _SalyHeaderSliver extends MFHeader {
   const _SalyHeaderSliver({
     super.onTapBack,
     super.leading,

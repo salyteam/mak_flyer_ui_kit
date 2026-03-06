@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/src/layout/mf_stepper/mf_stepper.dart';
 
 class StepperController extends ChangeNotifier {
   StepperController({int initialIndex = 0}) : _currentIndex = initialIndex;

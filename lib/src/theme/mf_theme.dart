@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:saly_ui_kit/saly_ui_kit.dart';
+import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SalyTheme extends StatefulWidget {
-  static SalyThemeState of(BuildContext context) {
-    final result = context.findAncestorStateOfType<SalyThemeState>();
+class MFTheme extends StatefulWidget {
+  static MFThemeState of(BuildContext context) {
+    final result = context.findAncestorStateOfType<MFThemeState>();
     assert(result != null);
     return result!;
   }
 
-  const SalyTheme({required this.child, this.initBrightness = Brightness.light, this.storage, super.key});
+  const MFTheme({required this.child, this.initBrightness = Brightness.light, this.storage, super.key});
 
   final Widget child;
   final SharedPreferences? storage;
   final Brightness initBrightness;
 
   @override
-  State<SalyTheme> createState() => SalyThemeState();
+  State<MFTheme> createState() => MFThemeState();
 }
 
-class SalyThemeState extends State<SalyTheme> {
+class MFThemeState extends State<MFTheme> {
   static const _colorThemeKey = "color_theme";
 
   late ColorThemeExtension _colors;
@@ -76,7 +76,7 @@ class SalyThemeState extends State<SalyTheme> {
       data: ThemeData(
         scaffoldBackgroundColor: _colors.neutralPrimaryS2,
         appBarTheme: AppBarTheme(
-          color: _colors.neutralPrimaryS2,
+          backgroundColor: _colors.neutralPrimaryS2,
           surfaceTintColor: _colors.neutralPrimaryS2,
           systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.green),
         ),
