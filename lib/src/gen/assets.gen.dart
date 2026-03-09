@@ -137,7 +137,7 @@ class $AssetsImagesGen {
 class MFAssets {
   const MFAssets._();
 
-  static const String package = 'saly_ui_kit';
+  static const String package = 'mak_flyer_ui_kit';
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
@@ -148,7 +148,7 @@ class AssetGenImage {
 
   final String _assetName;
 
-  static const String package = 'saly_ui_kit';
+  static const String package = 'mak_flyer_ui_kit';
 
   final Size? size;
   final Set<String> flavors;
@@ -216,7 +216,7 @@ class AssetGenImage {
 
   String get path => _assetName;
 
-  String get keyName => 'packages/saly_ui_kit/$_assetName';
+  String get keyName => 'packages/mak_flyer_ui_kit/$_assetName';
 }
 
 class AssetGenImageAnimation {
@@ -237,7 +237,7 @@ class SvgGenImage {
   final Set<String> flavors;
   final bool _isVecFormat;
 
-  static const String package = 'saly_ui_kit';
+  static const String package = 'mak_flyer_ui_kit';
 
   _svg.SvgPicture svg({
     Key? key,
@@ -292,5 +292,5 @@ class SvgGenImage {
 
   String get path => _assetName;
 
-  String get keyName => 'packages/saly_ui_kit/$_assetName';
+  String get keyName => 'packages/mak_flyer_ui_kit/$_assetName';
 }
