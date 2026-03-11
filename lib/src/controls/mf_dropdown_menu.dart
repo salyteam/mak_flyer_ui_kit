@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 
-///Model for configuration DropDownMenu
-abstract interface class MFDropDownMenuItem {
+///Model for configuration DropdownMenu
+abstract interface class MFDropdownMenuItem {
   abstract final int menuId;
   abstract final String title;
 }
 
-class MFDropDownMenu<T extends MFDropDownMenuItem> extends StatefulWidget {
-  const MFDropDownMenu({
+class MFDropdownMenu<T extends MFDropdownMenuItem> extends StatefulWidget {
+  const MFDropdownMenu({
     required this.items,
     required this.onChange,
     required this.initValue,
@@ -19,25 +19,25 @@ class MFDropDownMenu<T extends MFDropDownMenuItem> extends StatefulWidget {
 
   static const _defaultHeight = 300.0;
 
-  final MFDropDownMenuItem initValue;
-  final List<MFDropDownMenuItem> items;
+  final MFDropdownMenuItem initValue;
+  final List<MFDropdownMenuItem> items;
   final void Function(T value) onChange;
   final bool isDisable;
   final double contentHeight;
 
   @override
-  State<MFDropDownMenu> createState() => _MFDropDownMenuState<T>();
+  State<MFDropdownMenu> createState() => _MFDropdownMenuState<T>();
 }
 
 abstract interface class _ScrollUpdatingDelegate {
   void scrollPosition(double offset);
 }
 
-class _MFDropDownMenuState<T extends MFDropDownMenuItem> extends State<MFDropDownMenu<T>>
+class _MFDropdownMenuState<T extends MFDropdownMenuItem> extends State<MFDropdownMenu<T>>
     implements _ScrollUpdatingDelegate {
   late final LayerLink _layerLink = LayerLink();
   OverlayEntry? _entry;
-  MFDropDownMenuItem? _selectedItem;
+  MFDropdownMenuItem? _selectedItem;
   double _previousScrollOffset = 0.0;
 
   bool get _isActive => _entry != null;
@@ -60,7 +60,7 @@ class _MFDropDownMenuState<T extends MFDropDownMenuItem> extends State<MFDropDow
               targetAnchor: Alignment.bottomCenter,
               followerAnchor: Alignment.topCenter,
               link: _layerLink,
-              child: _DropDownMenuContent<T>(
+              child: _DropdownMenuContent<T>(
                 initValue: _selectedItem ?? widget.initValue,
                 scrollController: ScrollController(initialScrollOffset: _previousScrollOffset),
                 onTapOutside: () => _close(),
@@ -82,6 +82,8 @@ class _MFDropDownMenuState<T extends MFDropDownMenuItem> extends State<MFDropDow
   }
 
   void _close() {
+    if (!mounted) return;
+
     _entry?.remove();
     setState(() => _entry = null);
   }
@@ -97,7 +99,9 @@ class _MFDropDownMenuState<T extends MFDropDownMenuItem> extends State<MFDropDow
           duration: const Duration(milliseconds: 170),
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
-            border: Border.all(color: _isActive ? context.colors.statusInfoS1 : context.colors.neutralSecondaryS3),
+            border: Border.all(
+              color: _isActive ? context.colors.statusInfoS1 : context.colors.neutralSecondaryS3,
+            ),
             borderRadius: BorderRadius.circular(16),
             color: _isActive ? context.colors.statusInfoS2 : context.colors.neutralPrimaryS1,
           ),
@@ -131,8 +135,8 @@ class _MFDropDownMenuState<T extends MFDropDownMenuItem> extends State<MFDropDow
   }
 }
 
-class _DropDownMenuContent<T extends MFDropDownMenuItem> extends StatefulWidget {
-  const _DropDownMenuContent({
+class _DropdownMenuContent<T extends MFDropdownMenuItem> extends StatefulWidget {
+  const _DropdownMenuContent({
     required this.initValue,
     required this.items,
     required this.onSelect,
@@ -141,18 +145,18 @@ class _DropDownMenuContent<T extends MFDropDownMenuItem> extends StatefulWidget 
     this.scrollController,
   });
 
-  final MFDropDownMenuItem initValue;
-  final List<MFDropDownMenuItem> items;
+  final MFDropdownMenuItem initValue;
+  final List<MFDropdownMenuItem> items;
   final VoidCallback? onTapOutside;
   final ScrollController? scrollController;
   final _ScrollUpdatingDelegate? scrollUpdatingDelegate;
   final void Function(T value) onSelect;
 
   @override
-  State<_DropDownMenuContent> createState() => _DropDownMenuContentState<T>();
+  State<_DropdownMenuContent> createState() => _DropdownMenuContentState<T>();
 }
 
-class _DropDownMenuContentState<T extends MFDropDownMenuItem> extends State<_DropDownMenuContent<T>> {
+class _DropdownMenuContentState<T extends MFDropdownMenuItem> extends State<_DropdownMenuContent<T>> {
   final _animationDuration = const Duration(milliseconds: 170);
   CrossFadeState _state = CrossFadeState.showSecond;
 
@@ -207,7 +211,7 @@ class _DropDownMenuContentState<T extends MFDropDownMenuItem> extends State<_Dro
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       for (final (i, item) in widget.items.indexed) ...[
-                        _DropDownMenuItemWidget(
+                        _DropdownMenuItemWidget(
                           isActive: item.menuId == widget.initValue.menuId,
                           title: item.title,
                           onChange: (_) async {
@@ -215,7 +219,8 @@ class _DropDownMenuContentState<T extends MFDropDownMenuItem> extends State<_Dro
                             widget.onSelect.call(item as T);
                           },
                         ),
-                        if (i != widget.items.length - 1) Divider(color: context.colors.neutralSecondaryS3, height: 1),
+                        if (i != widget.items.length - 1)
+                          Divider(color: context.colors.neutralSecondaryS3, height: 1),
                       ],
                     ],
                   ),
@@ -235,8 +240,8 @@ class _DropDownMenuContentState<T extends MFDropDownMenuItem> extends State<_Dro
   }
 }
 
-class _DropDownMenuItemWidget extends StatelessWidget {
-  const _DropDownMenuItemWidget({required this.isActive, required this.title, this.onChange});
+class _DropdownMenuItemWidget extends StatelessWidget {
+  const _DropdownMenuItemWidget({required this.isActive, required this.title, this.onChange});
 
   final String title;
   final bool isActive;

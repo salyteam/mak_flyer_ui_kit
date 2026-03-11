@@ -31,7 +31,7 @@ Brightness? getInitBrightness(SharedPreferences sharedPref) {
   return Brightness.values[value];
 }
 
-class CityModel implements MFDropDownMenuItem {
+class CityModel implements MFDropdownMenuItem {
   CityModel(this.menuId, this.name);
 
   @override
@@ -42,7 +42,7 @@ class CityModel implements MFDropDownMenuItem {
   String get title => name;
 }
 
-class Anatoliy implements MFDropDownMenuItem {
+class Anatoliy implements MFDropdownMenuItem {
   @override
   int get menuId => 1;
 
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         child: Column(
           spacing: 20,
           children: [
-            MFDropDownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
+            MFDropdownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
 
             MFLikeButton(initValue: false, size: 100),
 
