@@ -8,7 +8,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
@@ -25,7 +25,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
@@ -42,7 +42,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.shadow,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
@@ -59,7 +59,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.backgroundColor,
     this.disableColor,
@@ -72,7 +72,7 @@ class MFButton extends StatelessWidget {
        assert(child != null || title != null);
 
   final VoidCallback? onTap;
-  final double radius;
+  final double borderRadius;
   final Widget? child;
   final String? title;
   final TextStyle? textStyle;
@@ -85,8 +85,7 @@ class MFButton extends StatelessWidget {
 
   bool get isDisabled => onTap == null;
 
-  Color _mainColor(BuildContext context) =>
-      isDestructive ? context.colors.invalid : context.colors.statusAccentS1;
+  Color _mainColor(BuildContext context) => isDestructive ? context.colors.invalid : context.colors.statusAccentS1;
 
   Color _primaryFillColor(BuildContext context) =>
       isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS1;
@@ -108,7 +107,7 @@ class MFButton extends StatelessWidget {
   Color _textColor(BuildContext context) {
     if (_type == .ghost) {
       var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
-      if (isDisabled) color = color.withValues(alpha: 0.7);
+      if (isDisabled) color = color.withValues(alpha: .7);
       return color;
     }
     return context.colors.neutralPrimaryS1;
@@ -116,8 +115,8 @@ class MFButton extends StatelessWidget {
 
   BoxBorder? _border(BuildContext context) {
     if (_type == .ghost) {
-      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
-      if (isDisabled) color = color.withValues(alpha: 0.4);
+      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS3;
+      if (isDisabled) color = color.withValues(alpha: .4);
 
       return .all(color: color);
     }
@@ -125,10 +124,10 @@ class MFButton extends StatelessWidget {
     return null;
   }
 
-  BorderRadius get _borderRadius => .circular(radius);
+  BorderRadius get _borderRadius => .circular(borderRadius);
 
   Widget? _buildChild(BuildContext context) {
-    if (isLoading) return MFLoader(key: ValueKey("loader"), padding: EdgeInsets.zero);
+    if (isLoading) return MFLoader(key: ValueKey("loader"), color: _textColor(context), padding: .zero);
 
     if (child != null) return child!;
 
@@ -138,11 +137,7 @@ class MFButton extends StatelessWidget {
         key: ValueKey("text"),
         style:
             textStyle ??
-            context.fonts.subtitle.copyWith(
-              color: _textColor(context),
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
-            ),
+            context.fonts.subtitle.copyWith(color: _textColor(context), fontWeight: FontWeight.w700, fontSize: 16),
       );
     }
 
@@ -163,13 +158,11 @@ class MFButton extends StatelessWidget {
             decoration: BoxDecoration(
               color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
               borderRadius: _borderRadius,
-              boxShadow:
-                  shadow ??
-                  [BoxShadow(color: _backgroundColor(context).withValues(alpha: 0.1), blurRadius: 16)],
+              boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: .1), blurRadius: 16)],
               border: _border(context),
             ),
             child: Padding(
-              padding: size != null ? EdgeInsets.zero : padding,
+              padding: size != null ? .zero : padding,
               child: Center(child: _buildChild(context)),
             ),
           ),
