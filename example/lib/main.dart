@@ -64,6 +64,17 @@ class MyApp extends StatelessWidget {
           children: [
             MFDropdownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 8,
+              children: [
+                MFIconButton.primary(icon: Icon(Icons.check), onTap: () {}),
+                MFIconButton.secondary(icon: Icon(Icons.close), size: MFIconButtonSize.small),
+                MFIconButton.ghost(icon: Icon(Icons.visibility_off), onTap: () {}, size: MFIconButtonSize.superSmall),
+                MFIconButton.custom(icon: Icon(Icons.add), backgroundColor: Colors.green, onTap: () {}),
+              ],
+            ),
+
             MFLikeButton(initValue: false, size: 100),
 
             Padding(

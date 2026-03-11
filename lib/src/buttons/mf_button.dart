@@ -11,7 +11,7 @@ class MFButton extends StatelessWidget {
     this.borderRadius = 50,
     this.size,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
@@ -28,7 +28,7 @@ class MFButton extends StatelessWidget {
     this.borderRadius = 50,
     this.size,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
@@ -45,7 +45,7 @@ class MFButton extends StatelessWidget {
     this.borderRadius = 50,
     this.size,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
@@ -64,7 +64,7 @@ class MFButton extends StatelessWidget {
     this.backgroundColor,
     this.disableColor,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
@@ -145,29 +145,27 @@ class MFButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox.fromSize(
-      size: size,
-      child: Material(
-        color: Colors.transparent,
+  Widget build(BuildContext context) => SizedBox.fromSize(
+    size: size,
+    child: Material(
+      color: Colors.transparent,
+      borderRadius: _borderRadius,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: _borderRadius,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: _borderRadius,
-          child: Ink(
-            decoration: BoxDecoration(
-              color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
-              borderRadius: _borderRadius,
-              boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: .1), blurRadius: 16)],
-              border: _border(context),
-            ),
-            child: Padding(
-              padding: size != null ? .zero : padding,
-              child: Center(child: _buildChild(context)),
-            ),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
+            borderRadius: _borderRadius,
+            boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: .1), blurRadius: 16)],
+            border: _border(context),
+          ),
+          child: Padding(
+            padding: size != null ? .zero : padding,
+            child: Center(child: _buildChild(context)),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
