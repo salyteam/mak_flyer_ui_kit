@@ -116,10 +116,10 @@ class MyApp extends StatelessWidget {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MFButton.custom(
+              child: MFButton.primary(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
+                isDestructive: true,
                 title: "Button",
-                backgroundColor: Colors.red,
               ),
             ),
           ],
