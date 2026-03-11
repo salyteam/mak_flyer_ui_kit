@@ -17,9 +17,7 @@ Future<void> main() async {
 
   runApp(
     MaterialApp(
-      builder: (context, child) {
-        return MFTheme(storage: sharedPref, child: child!);
-      },
+      builder: (context, child) => MFTheme(storage: sharedPref, child: child!),
       home: const MyApp(),
     ),
   );
@@ -87,12 +85,7 @@ class MyApp extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(child: Text("Color theme", style: context.fonts.h5)),
-                  MFSwitcher(
-                    value: false,
-                    onChange: (valur) {
-                      MFTheme.of(context).changeTheme();
-                    },
-                  ),
+                  MFSwitcher(value: false, onChange: (value) => MFTheme.of(context).changeTheme()),
                 ],
               ),
             ),
@@ -105,20 +98,13 @@ class MyApp extends StatelessWidget {
                   children: [
                     for (int i = 0; i < 5; i++)
                       DiscountCard(
-                        onTap: () {
-                          print('asdfas');
-                        },
+                        onTap: () => debugPrint('asdfas'),
                         description:
                             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ma",
                         sale: 50,
                         name: "Lorem ipsum",
-                        onFavoriteChange: (value) {
-                          print("value $value");
-                        },
-
-                        onFavoriteTap: () {
-                          print('Tap');
-                        },
+                        onFavoriteChange: (value) => debugPrint("value $value"),
+                        onFavoriteTap: () => debugPrint('Tap'),
                       ),
                   ],
                 ),
@@ -175,9 +161,7 @@ final class CardsListScreen extends StatelessWidget {
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzjQUSQzSfQuxWGk_Lw2HSU8GUuTPl-jCPfA&s",
                 description:
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita ka",
-                onMoreTap: () {
-                  print("Hello");
-                },
+                onMoreTap: () => debugPrint("Hello"),
               ),
               separatorBuilder: (c, i) => const SizedBox(height: 10),
               itemCount: 10,
