@@ -46,12 +46,14 @@ abstract class MFHeader extends StatelessWidget implements PreferredSizeWidget {
   final EdgeInsets? contentPadding;
 
   @override
-  Size get preferredSize => Size(double.infinity, height);
+  Size get preferredSize => Size(double.infinity, height + _topPadding);
+
+  double get _topPadding => 28;
 
   Widget buildHeader(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(color: context.colors.neutralPrimaryS2),
     child: Padding(
-      padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      padding: contentPadding ?? .fromLTRB(20, _topPadding, 20, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
