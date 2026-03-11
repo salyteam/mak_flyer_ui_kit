@@ -59,6 +59,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
 
+  /// File path: assets/icons/info.svg
+  SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
+
   /// File path: assets/icons/location.svg
   SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
 
@@ -105,6 +108,7 @@ class $AssetsIconsGen {
     eye,
     heart,
     home,
+    info,
     location,
     moon,
     more,
