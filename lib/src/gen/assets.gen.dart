@@ -38,6 +38,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/change.svg
   SvgGenImage get change => const SvgGenImage('assets/icons/change.svg');
 
+  /// File path: assets/icons/check.svg
+  SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
+
   /// File path: assets/icons/cross.svg
   SvgGenImage get cross => const SvgGenImage('assets/icons/cross.svg');
 
@@ -101,6 +104,7 @@ class $AssetsIconsGen {
     cake,
     category,
     change,
+    check,
     cross,
     edit,
     email,
