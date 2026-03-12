@@ -46,27 +46,28 @@ abstract class MFHeader extends StatelessWidget implements PreferredSizeWidget {
   final EdgeInsets? contentPadding;
 
   @override
-  Size get preferredSize => Size(double.infinity, height);
+  Size get preferredSize => Size(double.infinity, height + _topPadding);
+
+  double get _topPadding => 28;
 
   Widget buildHeader(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(color: context.colors.neutralPrimaryS2),
     child: Padding(
-      padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      padding: contentPadding ?? .fromLTRB(20, _topPadding, 20, 0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: .spaceBetween,
         children: [
           Material(
             color: Colors.transparent,
             child:
                 leading ??
                 MFButton.ghost(
-                  radius: 52,
-                  size: Size.square(52),
-                  shadow: [BoxShadow(color: context.colors.shadowColor.withValues(alpha: .1), blurRadius: 16)],
+                  borderRadius: 52,
+                  size: const .square(52),
                   onTap: onTapBack ?? () => Navigator.pop(context),
                   child: MFAssets.icons.arrowLeft.svg(
                     colorFilter: MFTheme.of(context).isDartTheme
-                        ? ColorFilter.mode(context.colors.neutralSecondaryS4, BlendMode.srcIn)
+                        ? .mode(context.colors.neutralSecondaryS4, .srcIn)
                         : null,
                   ),
                 ),
@@ -115,7 +116,7 @@ final class _SalyHeaderSliver extends MFHeader {
   Widget build(BuildContext context) => SliverPersistentHeader(
     pinned: pinned,
     floating: floating,
-    delegate: _HeaderDelegate(builder: (context) => buildHeader(context), height: height),
+    delegate: _HeaderDelegate(builder: buildHeader, height: height),
   );
 }
 

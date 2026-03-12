@@ -8,14 +8,14 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
-  }) : _type = MFButtonType.primary,
+  }) : _type = .primary,
        backgroundColor = null,
        disableColor = null,
        assert(child != null || title != null);
@@ -25,16 +25,16 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
+    this.isDestructive = false,
     this.isLoading = false,
     super.key,
-  }) : _type = MFButtonType.secondary,
+  }) : _type = .secondary,
        backgroundColor = null,
        disableColor = null,
-       isDestructive = false,
        assert(child != null || title != null);
 
   const MFButton.ghost({
@@ -42,14 +42,14 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
-  }) : _type = MFButtonType.ghost,
+  }) : _type = .ghost,
        backgroundColor = null,
        disableColor = null,
        assert(child != null || title != null);
@@ -59,20 +59,20 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.radius = 50,
+    this.borderRadius = 50,
     this.size,
     this.backgroundColor,
     this.disableColor,
     this.shadow,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 65),
+    this.padding = const .symmetric(vertical: 14, horizontal: 65),
+    this.isDestructive = false,
     this.isLoading = false,
     super.key,
-  }) : _type = MFButtonType.custom,
-       isDestructive = false,
+  }) : _type = .custom,
        assert(child != null || title != null);
 
   final VoidCallback? onTap;
-  final double radius;
+  final double borderRadius;
   final Widget? child;
   final String? title;
   final TextStyle? textStyle;
@@ -87,42 +87,36 @@ class MFButton extends StatelessWidget {
 
   Color _mainColor(BuildContext context) => isDestructive ? context.colors.invalid : context.colors.statusAccentS1;
 
+  Color _primaryFillColor(BuildContext context) =>
+      isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS1;
+
   Color _backgroundColor(BuildContext context) => switch (_type) {
-    MFButtonType.primary => _mainColor(context),
-    MFButtonType.secondary => context.colors.neutralSecondaryS2,
-    MFButtonType.ghost => context.colors.neutralPrimaryS1,
-    MFButtonType.custom => backgroundColor ?? context.colors.statusAccentS1,
+    .primary => _primaryFillColor(context),
+    .secondary => _mainColor(context),
+    .ghost => context.colors.neutralPrimaryS1,
+    .custom => backgroundColor ?? _mainColor(context),
   };
 
   Color _backgroundDisabledColor(BuildContext context) => switch (_type) {
-    MFButtonType.primary => _mainColor(context).withValues(alpha: 0.7),
-    MFButtonType.secondary => context.colors.neutralSecondaryS2.withValues(alpha: 0.7),
-    MFButtonType.ghost => context.colors.neutralPrimaryS1,
-    MFButtonType.custom => disableColor ?? context.colors.statusAccentS1.withValues(alpha: 0.7),
+    .primary => _primaryFillColor(context).withValues(alpha: .7),
+    .secondary => _mainColor(context).withValues(alpha: .5),
+    .ghost => context.colors.neutralPrimaryS1,
+    .custom => disableColor ?? _mainColor(context).withValues(alpha: .7),
   };
 
   Color _textColor(BuildContext context) {
-    if (_type == MFButtonType.ghost) {
+    if (_type == .ghost) {
       var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
-      if (isDisabled) color = color.withValues(alpha: 0.7);
-
+      if (isDisabled) color = color.withValues(alpha: .7);
       return color;
     }
-
-    if (_type == MFButtonType.ghost && isDestructive) {
-      return context.colors.invalid.withValues(alpha: 0.7);
-    }
-
-    return switch (_type) {
-      MFButtonType.ghost => context.colors.neutralSecondaryS2,
-      _ => context.colors.neutralPrimaryS1,
-    };
+    return context.colors.neutralPrimaryS1;
   }
 
   BoxBorder? _border(BuildContext context) {
-    if (_type == MFButtonType.ghost) {
-      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
-      if (isDisabled) color = color.withValues(alpha: 0.4);
+    if (_type == .ghost) {
+      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS3;
+      if (isDisabled) color = color.withValues(alpha: .4);
 
       return .all(color: color);
     }
@@ -130,10 +124,10 @@ class MFButton extends StatelessWidget {
     return null;
   }
 
-  BorderRadius get _borderRadius => .circular(radius);
+  BorderRadius get _borderRadius => .circular(borderRadius);
 
   Widget? _buildChild(BuildContext context) {
-    if (isLoading) return MFLoader(key: ValueKey("loader"), padding: EdgeInsets.zero);
+    if (isLoading) return MFLoader(key: ValueKey("loader"), color: _textColor(context), padding: .zero);
 
     if (child != null) return child!;
 
@@ -151,8 +145,20 @@ class MFButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox.fromSize(
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
+      borderRadius: _borderRadius,
+      boxShadow:
+          shadow ??
+          [
+            BoxShadow(
+              color: _backgroundColor(context).withValues(alpha: .1),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
+            ),
+          ],
+    ),
+    child: SizedBox.fromSize(
       size: size,
       child: Material(
         color: Colors.transparent,
@@ -164,7 +170,6 @@ class MFButton extends StatelessWidget {
             decoration: BoxDecoration(
               color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
               borderRadius: _borderRadius,
-              boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: 0.1), blurRadius: 16)],
               border: _border(context),
             ),
             child: Padding(
@@ -174,6 +179,6 @@ class MFButton extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }

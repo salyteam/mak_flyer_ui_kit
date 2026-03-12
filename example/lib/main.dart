@@ -17,9 +17,7 @@ Future<void> main() async {
 
   runApp(
     MaterialApp(
-      builder: (context, child) {
-        return MFTheme(storage: sharedPref, child: child!);
-      },
+      builder: (context, child) => MFTheme(storage: sharedPref, child: child!),
       home: const MyApp(),
     ),
   );
@@ -31,7 +29,7 @@ Brightness? getInitBrightness(SharedPreferences sharedPref) {
   return Brightness.values[value];
 }
 
-class CityModel implements MFDropDownMenuItem {
+class CityModel implements MFDropdownMenuItem {
   CityModel(this.menuId, this.name);
 
   @override
@@ -42,7 +40,7 @@ class CityModel implements MFDropDownMenuItem {
   String get title => name;
 }
 
-class Anatoliy implements MFDropDownMenuItem {
+class Anatoliy implements MFDropdownMenuItem {
   @override
   int get menuId => 1;
 
@@ -57,12 +55,61 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool option1IsActive = false;
+    bool option2IsActive = false;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           spacing: 20,
           children: [
-            MFDropDownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
+            MFDropdownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 8,
+              children: [
+                MFIconButton.primary(icon: Icon(Icons.check), onTap: () {}),
+                MFIconButton.secondary(icon: Icon(Icons.close), size: MFIconButtonSize.small),
+                MFIconButton.ghost(icon: Icon(Icons.visibility_off), onTap: () {}, size: MFIconButtonSize.superSmall),
+                MFIconButton.custom(icon: Icon(Icons.add), backgroundColor: Colors.green, onTap: () {}),
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                spacing: 12,
+                children: [
+                  StatefulBuilder(
+                    builder: (context, setState) => MFRadioOption(
+                      title: "Nothing",
+                      onTap: () => setState(() => option1IsActive = !option1IsActive),
+                      isActive: option1IsActive,
+                    ),
+                  ),
+                  StatefulBuilder(
+                    builder: (context, setState) => MFRadioOption(
+                      title: "Ramen",
+                      emoji: "🍜",
+                      onTap: () => setState(() => option2IsActive = !option2IsActive),
+                      isActive: option2IsActive,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                spacing: 12,
+                children: [
+                  MFOptionButton.link(title: "Option 1", onTap: () {}),
+                  MFOptionButton.switcher(title: "Option 2", value: false, onChange: (value) {}),
+                ],
+              ),
+            ),
 
             MFLikeButton(initValue: false, size: 100),
 
@@ -76,12 +123,7 @@ class MyApp extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(child: Text("Color theme", style: context.fonts.h5)),
-                  MFSwitcher(
-                    value: false,
-                    onChange: (valur) {
-                      MFTheme.of(context).changeTheme();
-                    },
-                  ),
+                  MFSwitcher(value: false, onChange: (value) => MFTheme.of(context).changeTheme()),
                 ],
               ),
             ),
@@ -94,20 +136,13 @@ class MyApp extends StatelessWidget {
                   children: [
                     for (int i = 0; i < 5; i++)
                       DiscountCard(
-                        onTap: () {
-                          print('asdfas');
-                        },
+                        onTap: () => debugPrint('asdfas'),
                         description:
                             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ma",
                         sale: 50,
                         name: "Lorem ipsum",
-                        onFavoriteChange: (value) {
-                          print("value $value");
-                        },
-
-                        onFavoriteTap: () {
-                          print('Tap');
-                        },
+                        onFavoriteChange: (value) => debugPrint("value $value"),
+                        onFavoriteTap: () => debugPrint('Tap'),
                       ),
                   ],
                 ),
@@ -116,10 +151,10 @@ class MyApp extends StatelessWidget {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MFButton.custom(
+              child: MFButton.primary(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
+                isDestructive: true,
                 title: "Button",
-                backgroundColor: Colors.red,
               ),
             ),
           ],
@@ -164,9 +199,7 @@ final class CardsListScreen extends StatelessWidget {
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzjQUSQzSfQuxWGk_Lw2HSU8GUuTPl-jCPfA&s",
                 description:
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita ka",
-                onMoreTap: () {
-                  print("Hello");
-                },
+                onMoreTap: () => debugPrint("Hello"),
               ),
               separatorBuilder: (c, i) => const SizedBox(height: 10),
               itemCount: 10,

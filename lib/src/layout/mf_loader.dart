@@ -42,7 +42,7 @@ class _MFLoaderState extends State<MFLoader> with SingleTickerProviderStateMixin
         child: Container(
           width: 24,
           height: 24,
-          decoration: BoxDecoration(color: widget.color ?? context.colors.statusInfoS1, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: widget.color ?? context.colors.statusAccentS1, shape: BoxShape.circle),
         ),
       ),
     );
