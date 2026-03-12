@@ -22,7 +22,7 @@ class MFRadioOption extends StatelessWidget {
         onTap: onTap,
         borderRadius: .circular(12),
         child: Ink(
-          padding: const .symmetric(horizontal: 16, vertical: 14),
+          padding: .fromLTRB(emoji != null ? 16 : 24, 14, 16, 14),
           decoration: BoxDecoration(
             color: context.colors.neutralPrimaryS1,
             border: .all(color: isActive ? context.colors.neutralSecondaryS3 : Colors.transparent),

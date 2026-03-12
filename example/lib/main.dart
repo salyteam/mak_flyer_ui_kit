@@ -83,18 +83,30 @@ class MyApp extends StatelessWidget {
                 children: [
                   StatefulBuilder(
                     builder: (context, setState) => MFRadioOption(
-                      title: "Option 1",
+                      title: "Nothing",
                       onTap: () => setState(() => option1IsActive = !option1IsActive),
                       isActive: option1IsActive,
                     ),
                   ),
                   StatefulBuilder(
                     builder: (context, setState) => MFRadioOption(
-                      title: "Option 2",
+                      title: "Ramen",
+                      emoji: "🍜",
                       onTap: () => setState(() => option2IsActive = !option2IsActive),
                       isActive: option2IsActive,
                     ),
                   ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                spacing: 12,
+                children: [
+                  MFOptionButton.link(title: "Option 1", onTap: () {}),
+                  MFOptionButton.switcher(title: "Option 2", value: false, onChange: (value) {}),
                 ],
               ),
             ),
