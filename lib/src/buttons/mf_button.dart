@@ -165,6 +165,7 @@ class MFButton extends StatelessWidget {
         borderRadius: _borderRadius,
         child: InkWell(
           onTap: onTap,
+          borderRadius: _borderRadius,
           child: Ink(
             decoration: BoxDecoration(
               color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
