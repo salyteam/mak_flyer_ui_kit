@@ -145,24 +145,36 @@ class MFButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox.fromSize(
-    size: size,
-    child: Material(
-      color: Colors.transparent,
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
       borderRadius: _borderRadius,
-      child: InkWell(
-        onTap: onTap,
+      boxShadow:
+          shadow ??
+          [
+            BoxShadow(
+              color: _backgroundColor(context).withValues(alpha: .1),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
+            ),
+          ],
+    ),
+    child: SizedBox.fromSize(
+      size: size,
+      child: Material(
+        color: Colors.transparent,
         borderRadius: _borderRadius,
-        child: Ink(
-          decoration: BoxDecoration(
-            color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
-            borderRadius: _borderRadius,
-            boxShadow: shadow ?? [BoxShadow(color: _backgroundColor(context).withValues(alpha: .1), blurRadius: 16)],
-            border: _border(context),
-          ),
-          child: Padding(
-            padding: size != null ? .zero : padding,
-            child: Center(child: _buildChild(context)),
+        child: InkWell(
+          onTap: onTap,
+          child: Ink(
+            decoration: BoxDecoration(
+              color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
+              borderRadius: _borderRadius,
+              border: _border(context),
+            ),
+            child: Padding(
+              padding: size != null ? EdgeInsets.zero : padding,
+              child: Center(child: _buildChild(context)),
+            ),
           ),
         ),
       ),
