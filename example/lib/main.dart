@@ -55,6 +55,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool option1IsActive = false;
+    bool option2IsActive = false;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -71,6 +74,29 @@ class MyApp extends StatelessWidget {
                 MFIconButton.ghost(icon: Icon(Icons.visibility_off), onTap: () {}, size: MFIconButtonSize.superSmall),
                 MFIconButton.custom(icon: Icon(Icons.add), backgroundColor: Colors.green, onTap: () {}),
               ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                spacing: 12,
+                children: [
+                  StatefulBuilder(
+                    builder: (context, setState) => MFRadioOption(
+                      title: "Option 1",
+                      onTap: () => setState(() => option1IsActive = !option1IsActive),
+                      isActive: option1IsActive,
+                    ),
+                  ),
+                  StatefulBuilder(
+                    builder: (context, setState) => MFRadioOption(
+                      title: "Option 2",
+                      onTap: () => setState(() => option2IsActive = !option2IsActive),
+                      isActive: option2IsActive,
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             MFLikeButton(initValue: false, size: 100),
