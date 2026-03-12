@@ -83,6 +83,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sort.svg
   SvgGenImage get sort => const SvgGenImage('assets/icons/sort.svg');
 
+  /// File path: assets/icons/status_info.svg
+  SvgGenImage get statusInfo => const SvgGenImage('assets/icons/status_info.svg');
+
   /// File path: assets/icons/status_ok.svg
   SvgGenImage get statusOk => const SvgGenImage('assets/icons/status_ok.svg');
 
@@ -119,6 +122,7 @@ class $AssetsIconsGen {
     scan,
     searchLight,
     sort,
+    statusInfo,
     statusOk,
     sun,
     unfold,
