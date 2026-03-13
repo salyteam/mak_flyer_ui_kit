@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
 import 'package:mak_flyer_ui_kit/src/buttons/button_type.dart';
 
-enum MFIconButtonSize { normal, small, superSmall }
+enum MFIconButtonSize {
+  normal(52, 24),
+  small(42, 20),
+  superSmall(32, 16);
+
+  final double button;
+  final double icon;
+  const MFIconButtonSize(this.button, this.icon);
+}
 
 class MFIconButton extends StatelessWidget {
   const MFIconButton.primary({required this.icon, this.onTap, this.size = .normal, super.key})
@@ -38,12 +46,8 @@ class MFIconButton extends StatelessWidget {
 
   bool get isDisabled => onTap == null;
 
-  static const Map<MFIconButtonSize, double> _buttonSizes = {.normal: 52, .small: 42, .superSmall: 32};
-
-  static const Map<MFIconButtonSize, double> _iconSizes = {.normal: 24, .small: 20, .superSmall: 16};
-
-  double get _buttonSize => _buttonSizes[size]!;
-  double get _iconSize => _iconSizes[size]!;
+  double get _buttonSize => size.button;
+  double get _iconSize => size.icon;
   BorderRadius get _borderRadius => BorderRadius.circular(_buttonSize / 2);
 
   Color _mainColor(BuildContext context) => context.colors.statusAccentS1;

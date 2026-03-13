@@ -9,13 +9,14 @@ class MFRadioOption extends StatelessWidget {
   final bool isActive;
   final String? emoji;
 
-  List<BoxShadow> _shadow(BuildContext context) => [
-    BoxShadow(color: context.colors.shadowColor.withValues(alpha: .1), blurRadius: 16, offset: const Offset(0, 4)),
-  ];
-
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(boxShadow: isActive ? _shadow(context) : null),
+    decoration: BoxDecoration(
+      boxShadow: [
+        if (isActive)
+          BoxShadow(color: context.colors.shadowColor.withValues(alpha: .1), blurRadius: 16, offset: const .new(0, 4)),
+      ],
+    ),
     child: Material(
       color: Colors.transparent,
       child: InkWell(
