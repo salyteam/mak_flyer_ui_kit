@@ -8,7 +8,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.borderRadius = 50,
+    this.borderRadius = const .all(.circular(50)),
     this.size,
     this.shadow,
     this.padding = const .symmetric(vertical: 14, horizontal: 65),
@@ -25,7 +25,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.borderRadius = 50,
+    this.borderRadius = const .all(.circular(50)),
     this.size,
     this.shadow,
     this.padding = const .symmetric(vertical: 14, horizontal: 65),
@@ -42,7 +42,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.borderRadius = 50,
+    this.borderRadius = const .all(.circular(50)),
     this.size,
     this.shadow,
     this.padding = const .symmetric(vertical: 14, horizontal: 65),
@@ -59,7 +59,7 @@ class MFButton extends StatelessWidget {
     this.onTap,
     this.child,
     this.textStyle,
-    this.borderRadius = 50,
+    this.borderRadius = const .all(.circular(50)),
     this.size,
     this.backgroundColor,
     this.disableColor,
@@ -72,7 +72,7 @@ class MFButton extends StatelessWidget {
        assert(child != null || title != null);
 
   final VoidCallback? onTap;
-  final double borderRadius;
+  final BorderRadius borderRadius;
   final Widget? child;
   final String? title;
   final TextStyle? textStyle;
@@ -124,8 +124,6 @@ class MFButton extends StatelessWidget {
     return null;
   }
 
-  BorderRadius get _borderRadius => .circular(borderRadius);
-
   Widget? _buildChild(BuildContext context) {
     if (isLoading) return MFLoader(key: ValueKey("loader"), color: _textColor(context), padding: .zero);
 
@@ -147,29 +145,23 @@ class MFButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(
-      borderRadius: _borderRadius,
+      borderRadius: borderRadius,
       boxShadow:
           shadow ??
-          [
-            BoxShadow(
-              color: _backgroundColor(context).withValues(alpha: .1),
-              blurRadius: 16,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          [BoxShadow(color: _backgroundColor(context).withValues(alpha: .1), blurRadius: 16, offset: const .new(0, 4))],
     ),
     child: SizedBox.fromSize(
       size: size,
       child: Material(
         color: Colors.transparent,
-        borderRadius: _borderRadius,
+        borderRadius: borderRadius,
         child: InkWell(
           onTap: onTap,
-          borderRadius: _borderRadius,
+          borderRadius: borderRadius,
           child: Ink(
             decoration: BoxDecoration(
               color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
-              borderRadius: _borderRadius,
+              borderRadius: borderRadius,
               border: _border(context),
             ),
             child: Padding(

@@ -62,7 +62,7 @@ abstract class MFHeader extends StatelessWidget implements PreferredSizeWidget {
             child:
                 leading ??
                 MFButton.ghost(
-                  borderRadius: 52,
+                  borderRadius: const .all(.circular(52)),
                   size: const .square(52),
                   onTap: onTapBack ?? () => Navigator.pop(context),
                   child: MFAssets.icons.arrowLeft.svg(
