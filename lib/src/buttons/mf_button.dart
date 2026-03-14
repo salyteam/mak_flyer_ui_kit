@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
-import 'package:mak_flyer_ui_kit/src/buttons/button_type.dart';
 
 class MFButton extends StatelessWidget {
   const MFButton.primary({
@@ -9,15 +8,17 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size,
+    this.size = .normal,
+    this.customSize,
     this.shadow,
-    this.padding = const .symmetric(vertical: 14, horizontal: 65),
+    this.padding,
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
   }) : _type = .primary,
        backgroundColor = null,
        disableColor = null,
+       textColor = null,
        assert(child != null || title != null);
 
   const MFButton.secondary({
@@ -26,15 +27,17 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size,
+    this.size = .normal,
+    this.customSize,
     this.shadow,
-    this.padding = const .symmetric(vertical: 14, horizontal: 65),
+    this.padding,
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
   }) : _type = .secondary,
        backgroundColor = null,
        disableColor = null,
+       textColor = null,
        assert(child != null || title != null);
 
   const MFButton.ghost({
@@ -43,15 +46,17 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size,
+    this.size = .normal,
+    this.customSize,
     this.shadow,
-    this.padding = const .symmetric(vertical: 14, horizontal: 65),
+    this.padding,
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
   }) : _type = .ghost,
        backgroundColor = null,
        disableColor = null,
+       textColor = null,
        assert(child != null || title != null);
 
   const MFButton.custom({
@@ -60,11 +65,13 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size,
+    this.size = .normal,
+    this.customSize,
     this.backgroundColor,
     this.disableColor,
+    this.textColor,
     this.shadow,
-    this.padding = const .symmetric(vertical: 14, horizontal: 65),
+    this.padding,
     this.isDestructive = false,
     this.isLoading = false,
     super.key,
@@ -76,12 +83,25 @@ class MFButton extends StatelessWidget {
   final Widget? child;
   final String? title;
   final TextStyle? textStyle;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final MFButtonType _type;
   final List<BoxShadow>? shadow;
-  final Size? size;
-  final Color? backgroundColor, disableColor;
+  final MFButtonSize size;
+  final Size? customSize;
+  final Color? backgroundColor, disableColor, textColor;
   final bool isDestructive, isLoading;
+
+  double get _effectiveHeight {
+    final h = customSize?.height;
+    return (h != null && h.isFinite) ? h : size.height;
+  }
+
+  double? get _effectiveWidth {
+    final w = customSize?.width;
+    return (w != null && w.isFinite) ? w : null;
+  }
+
+  EdgeInsets get _effectivePadding => padding ?? (_type == .custom ? const .all(32) : size.padding);
 
   bool get isDisabled => onTap == null;
 
@@ -93,32 +113,25 @@ class MFButton extends StatelessWidget {
   Color _backgroundColor(BuildContext context) => switch (_type) {
     .primary => _primaryFillColor(context),
     .secondary => _mainColor(context),
-    .ghost => context.colors.neutralPrimaryS1,
+    .ghost => Colors.transparent,
     .custom => backgroundColor ?? _mainColor(context),
   };
 
-  Color _backgroundDisabledColor(BuildContext context) => switch (_type) {
-    .primary => _primaryFillColor(context).withValues(alpha: .7),
-    .secondary => _mainColor(context).withValues(alpha: .5),
-    .ghost => context.colors.neutralPrimaryS1,
-    .custom => disableColor ?? _mainColor(context).withValues(alpha: .7),
-  };
-
   Color _textColor(BuildContext context) {
+    if (_type == .custom && textColor != null) return textColor!;
     if (_type == .ghost) {
-      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
-      if (isDisabled) color = color.withValues(alpha: .7);
-      return color;
+      return isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS2;
     }
     return context.colors.neutralPrimaryS1;
   }
 
   BoxBorder? _border(BuildContext context) {
-    if (_type == .ghost) {
-      var color = isDestructive ? context.colors.invalid : context.colors.neutralSecondaryS3;
-      if (isDisabled) color = color.withValues(alpha: .4);
+    if (_type == .primary || _type == .ghost || isDisabled) {
+      return .all(color: context.colors.neutralSecondaryS3);
+    }
 
-      return .all(color: color);
+    if (_type == .secondary) {
+      return .all(color: context.colors.statusAccentS1.withValues(alpha: .2));
     }
 
     return null;
@@ -130,47 +143,43 @@ class MFButton extends StatelessWidget {
     if (child != null) return child!;
 
     if (title != null) {
-      return Text(
-        title!,
-        key: ValueKey("text"),
-        style:
-            textStyle ??
-            context.fonts.subtitle.copyWith(color: _textColor(context), fontWeight: FontWeight.w700, fontSize: 16),
-      );
+      final baseStyle = _type == .ghost
+          ? context.fonts.body.copyWith(color: _textColor(context))
+          : context.fonts.subtitle.copyWith(color: _textColor(context));
+      return Text(title!, key: ValueKey("text"), style: textStyle ?? baseStyle);
     }
 
     return null;
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      borderRadius: borderRadius,
-      boxShadow:
-          shadow ??
-          [BoxShadow(color: _backgroundColor(context).withValues(alpha: .1), blurRadius: 16, offset: const .new(0, 4))],
-    ),
-    child: SizedBox.fromSize(
-      size: size,
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: borderRadius,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: borderRadius,
-          child: Ink(
-            decoration: BoxDecoration(
-              color: isDisabled ? _backgroundDisabledColor(context) : _backgroundColor(context),
+  Widget build(BuildContext context) {
+    final content = DecoratedBox(
+      decoration: BoxDecoration(borderRadius: borderRadius, border: _border(context)),
+      child: Padding(
+        padding: const .all(4),
+        child: SizedBox(
+          height: _effectiveHeight,
+          width: _effectiveWidth,
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: borderRadius,
+            child: InkWell(
+              onTap: onTap,
               borderRadius: borderRadius,
-              border: _border(context),
-            ),
-            child: Padding(
-              padding: size != null ? EdgeInsets.zero : padding,
-              child: Center(child: _buildChild(context)),
+              child: Ink(
+                decoration: BoxDecoration(color: _backgroundColor(context), borderRadius: borderRadius),
+                child: Padding(
+                  padding: _effectivePadding,
+                  child: Center(child: _buildChild(context)),
+                ),
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+
+    return isDisabled ? Opacity(opacity: .4, child: content) : content;
+  }
 }

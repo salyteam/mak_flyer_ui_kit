@@ -63,7 +63,6 @@ abstract class MFHeader extends StatelessWidget implements PreferredSizeWidget {
                 leading ??
                 MFButton.ghost(
                   borderRadius: const .all(.circular(52)),
-                  size: const .square(52),
                   onTap: onTapBack ?? () => Navigator.pop(context),
                   child: MFAssets.icons.arrowLeft.svg(
                     colorFilter: MFTheme.of(context).isDartTheme
