@@ -8,8 +8,7 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size = .normal,
-    this.customSize,
+    this.size = MFButtonSize.normal,
     this.shadow,
     this.padding,
     this.isDestructive = false,
@@ -27,8 +26,7 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size = .normal,
-    this.customSize,
+    this.size = MFButtonSize.normal,
     this.shadow,
     this.padding,
     this.isDestructive = false,
@@ -46,8 +44,7 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size = .normal,
-    this.customSize,
+    this.size = MFButtonSize.normal,
     this.shadow,
     this.padding,
     this.isDestructive = false,
@@ -65,8 +62,7 @@ class MFButton extends StatelessWidget {
     this.child,
     this.textStyle,
     this.borderRadius = const .all(.circular(50)),
-    this.size = .normal,
-    this.customSize,
+    this.size = MFButtonSize.normal,
     this.backgroundColor,
     this.disableColor,
     this.textColor,
@@ -87,19 +83,8 @@ class MFButton extends StatelessWidget {
   final MFButtonType _type;
   final List<BoxShadow>? shadow;
   final MFButtonSize size;
-  final Size? customSize;
   final Color? backgroundColor, disableColor, textColor;
   final bool isDestructive, isLoading;
-
-  double get _effectiveHeight {
-    final h = customSize?.height;
-    return (h != null && h.isFinite) ? h : size.height;
-  }
-
-  double? get _effectiveWidth {
-    final w = customSize?.width;
-    return (w != null && w.isFinite) ? w : null;
-  }
 
   EdgeInsets get _effectivePadding => padding ?? (_type == .custom ? const .all(32) : size.padding);
 
@@ -159,8 +144,8 @@ class MFButton extends StatelessWidget {
       child: Padding(
         padding: const .all(4),
         child: SizedBox(
-          height: _effectiveHeight,
-          width: _effectiveWidth,
+          height: size.height,
+          width: size.width,
           child: Material(
             color: Colors.transparent,
             borderRadius: borderRadius,

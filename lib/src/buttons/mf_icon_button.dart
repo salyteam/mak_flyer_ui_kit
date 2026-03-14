@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mak_flyer_ui_kit/mak_flyer_ui_kit.dart';
-import 'package:mak_flyer_ui_kit/src/buttons/button_type.dart';
 
 enum MFIconButtonSize {
   normal(52, 24),
