@@ -59,105 +59,116 @@ class MyApp extends StatelessWidget {
     bool option2IsActive = false;
 
     return Scaffold(
+      appBar: MFHeader.preferred(title: "MF Header"),
       body: SafeArea(
-        child: Column(
-          spacing: 20,
-          children: [
-            MFDropdownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
+        child: SingleChildScrollView(
+          child: Column(
+            spacing: 20,
+            children: [
+              MFDropdownMenu<Anatoliy>(initValue: cities.first, items: cities, onChange: (value) {}),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 8,
-              children: [
-                MFIconButton.primary(icon: Icon(Icons.check), onTap: () {}),
-                MFIconButton.secondary(icon: Icon(Icons.close), size: MFIconButtonSize.small),
-                MFIconButton.ghost(icon: Icon(Icons.visibility_off), onTap: () {}, size: MFIconButtonSize.superSmall),
-                MFIconButton.custom(icon: Icon(Icons.add), backgroundColor: Colors.green, onTap: () {}),
-              ],
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                spacing: 12,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 8,
                 children: [
-                  StatefulBuilder(
-                    builder: (context, setState) => MFRadioOption(
-                      title: "Nothing",
-                      onTap: () => setState(() => option1IsActive = !option1IsActive),
-                      isActive: option1IsActive,
-                    ),
-                  ),
-                  StatefulBuilder(
-                    builder: (context, setState) => MFRadioOption(
-                      title: "Ramen",
-                      emoji: "🍜",
-                      onTap: () => setState(() => option2IsActive = !option2IsActive),
-                      isActive: option2IsActive,
-                    ),
-                  ),
+                  MFIconButton.primary(icon: Icon(Icons.check), onTap: () {}),
+                  MFIconButton.secondary(icon: Icon(Icons.close), size: MFIconButtonSize.small),
+                  MFIconButton.ghost(icon: Icon(Icons.visibility_off), onTap: () {}, size: MFIconButtonSize.superSmall),
+                  MFIconButton.custom(icon: Icon(Icons.add), backgroundColor: Colors.green, onTap: () {}),
                 ],
               ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                spacing: 12,
-                children: [
-                  MFOptionButton.link(title: "Option 1", onTap: () {}),
-                  MFOptionButton.switcher(title: "Option 2", value: false, onChange: (value) {}),
-                ],
-              ),
-            ),
-
-            MFLikeButton(initValue: false, size: 100),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MFTextInput(hintText: "Some text", suffixIconAsset: MFAssets.icons.user),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(child: Text("Color theme", style: context.fonts.h5)),
-                  MFSwitcher(value: false, onChange: (value) => MFTheme.of(context).changeTheme()),
-                ],
-              ),
-            ),
-
-            Expanded(
-              child: SingleChildScrollView(
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
-                  spacing: 10,
+                  spacing: 12,
                   children: [
-                    for (int i = 0; i < 5; i++)
-                      DiscountCard(
-                        onTap: () => debugPrint('asdfas'),
-                        description:
-                            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ma",
-                        sale: 50,
-                        name: "Lorem ipsum",
-                        onFavoriteChange: (value) => debugPrint("value $value"),
-                        onFavoriteTap: () => debugPrint('Tap'),
+                    StatefulBuilder(
+                      builder: (context, setState) => MFRadioOption(
+                        title: "Nothing",
+                        onTap: () => setState(() => option1IsActive = !option1IsActive),
+                        isActive: option1IsActive,
                       ),
+                    ),
+                    StatefulBuilder(
+                      builder: (context, setState) => MFRadioOption(
+                        title: "Ramen",
+                        emoji: "🍜",
+                        onTap: () => setState(() => option2IsActive = !option2IsActive),
+                        isActive: option2IsActive,
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MFButton.primary(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
-                isDestructive: true,
-                title: "Button",
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  spacing: 12,
+                  children: [
+                    MFOptionButton.link(title: "Option 1", onTap: () {}),
+                    MFOptionButton.switcher(title: "Option 2", value: false, onChange: (value) {}),
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              MFLikeButton(initValue: false, size: 100),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MFTextInput(hintText: "Some text", suffixIconAsset: MFAssets.icons.user),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Expanded(child: Text("Color theme", style: context.fonts.h5)),
+                    MFSwitcher(value: false, onChange: (value) => MFTheme.of(context).changeTheme()),
+                  ],
+                ),
+              ),
+
+              Column(
+                spacing: 10,
+                children: [
+                  for (int i = 0; i < 2; i++)
+                    DiscountCard(
+                      onTap: () => debugPrint('asdfas'),
+                      description:
+                          "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore ma",
+                      sale: 50,
+                      name: "Lorem ipsum",
+                      onFavoriteChange: (value) => debugPrint("value $value"),
+                      onFavoriteTap: () => debugPrint('Tap'),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MFButton.primary(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
+                  title: "Button",
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MFButton.secondary(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
+                  title: "Button",
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MFButton.ghost(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => CardsListScreen())),
+                  title: "Button",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
